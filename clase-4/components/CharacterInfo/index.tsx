@@ -1,8 +1,10 @@
-import React, { useRef, useEffect } from 'react';
-import { View, Animated, StyleSheet } from 'react-native';
-import { Text } from '@/components/Text';
-import { styles } from './styles';
-import { type CharacterInfo } from '@/types/characters';
+import React, { useRef, useEffect } from "react";
+import { View, Animated, StyleSheet, ScrollView } from "react-native";
+import { Text } from "@/components/Text";
+import { styles } from "./styles";
+import { type CharacterInfo } from "@/types/characters";
+import { FlatList } from "react-native-gesture-handler";
+import CardTransformation from "../CardTransformation";
 
 export function CharacterInfo({
   description,
@@ -10,6 +12,7 @@ export function CharacterInfo({
   maxKi,
   race,
   gender,
+  name,
   transformations,
 }: CharacterInfo) {
   // Valor de animación para el efecto "saltando"
@@ -33,17 +36,24 @@ export function CharacterInfo({
     ).start();
   }, [jumpAnim]);
 
+  useEffect(() => {
+    console.log(transformations);
+  }, [transformations]);
+
   return (
     <View style={styles.container}>
       {/* Informacion principal */}
-      <View style={styles.properties}>
-        {/* Description */}
+      {/* Description */}
+      <View style={localStyles.description}>
         <Text style={localStyles.line}>
           <Text style={localStyles.key}>Description: </Text>
           <Text style={localStyles.value}>{description}</Text>
         </Text>
+      </View>
 
-        {/* Ki */}
+      {/* Ki */}
+
+      <View style={styles.properties}>
         <Text style={localStyles.line}>
           <Text style={localStyles.key}>Ki: </Text>
           <Text style={localStyles.value}>{ki}</Text>
@@ -71,30 +81,18 @@ export function CharacterInfo({
       {/* Lista de transformaciones */}
       {transformations?.length > 0 && (
         <View style={styles.stats}>
-          <Text h2 style={localStyles.sectionTitle}>Transformations</Text>
-          {transformations.map((transformation) => (
-            <View key={transformation.id} style={localStyles.transformationBox}>
-
-              {/* Nombre con efecto "saltando" */}
-              <Text style={localStyles.line}>
-                <Text style={localStyles.key}>Name: </Text>
-                <Animated.Text
-                  style={[
-                    localStyles.value,
-                    { transform: [{ translateY: jumpAnim }] },
-                  ]}
-                >
-                  {transformation.name}
-                </Animated.Text>
-              </Text>
-
-              {/* Ki de la transformación */}
-              <Text style={localStyles.line}>
-                <Text style={localStyles.key}>Ki: </Text>
-                <Text style={localStyles.value}>{transformation.ki}</Text>
-              </Text>
-            </View>
-          ))}
+          <Text h1 style={localStyles.sectionTitle}>
+            Transformations
+          </Text>
+          <FlatList
+            data={transformations}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => <CardTransformation item={item} />}
+            keyExtractor={(item) => `${item.id}`}
+            ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+            style={{ marginVertical: 20 }}
+          />
         </View>
       )}
     </View>
@@ -104,20 +102,23 @@ export function CharacterInfo({
 const localStyles = StyleSheet.create({
   line: {
     marginBottom: 6,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   key: {
-    color: 'yellow',
-    fontWeight: 'bold',
+    color: "yellow",
+    fontWeight: "bold",
   },
   value: {
-    color: 'white',
+    color: "white",
   },
   sectionTitle: {
     marginBottom: 10,
-    color: 'yellow',
+    color: "yellow",
   },
   transformationBox: {
     marginBottom: 15,
+  },
+  description: {
+    marginVertical: 5,
   },
 });
