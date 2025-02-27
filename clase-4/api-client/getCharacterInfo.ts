@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { type CharacterInfo } from "@/types/characters";
 
 type Props = {
-  id: number;
+  id: string | string[];
 };
 
 export function useCharacterInfo({ id }: Props) {
@@ -17,6 +17,7 @@ export function useCharacterInfo({ id }: Props) {
       );
       const json = await response.json();
       setCharacterInfo(json);
+      return json;
     } catch (error) {
       console.error("error: ", error);
     } finally {

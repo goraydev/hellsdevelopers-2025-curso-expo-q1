@@ -13,6 +13,7 @@ export function useCharacters() {
       );
       const json = await response.json();
       setCharacters(json.items);
+      return json.items ?? [];
     } catch (error) {
       console.error("error: ", error);
     } finally {
