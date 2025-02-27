@@ -12,7 +12,6 @@ import { View } from "react-native";
 
 export default function Vegeta() {
   const { id } = useLocalSearchParams();
-  console.log(id);
 
   const { fetchCharacterInfo } = useCharacterInfo({
     id,
