@@ -1,10 +1,9 @@
 import React, { useRef, useEffect } from "react";
-import { View, Animated, StyleSheet, ScrollView } from "react-native";
+import { View, Animated, StyleSheet, ScrollView, FlatList } from "react-native";
 import { Text } from "@/components/Text";
 import { styles } from "./styles";
 import { type CharacterInfo } from "@/types/characters";
-import { FlatList } from "react-native-gesture-handler";
-import CardTransformation from "../CardTransformation";
+import CardTransformation from "@/components/CardTransformation";
 
 export function CharacterInfo({
   description,
@@ -41,61 +40,59 @@ export function CharacterInfo({
   }, [transformations]);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {/* Informacion principal */}
-      {/* Description */}
-      <View style={localStyles.description}>
-        <Text style={localStyles.line}>
+      <View style={styles.container}>
+        {/* Description */}
+        <View style={localStyles.line}>
           <Text style={localStyles.key}>Description: </Text>
           <Text style={localStyles.value}>{description}</Text>
-        </Text>
-      </View>
+        </View>
 
-      {/* Ki */}
-
-      <View style={styles.properties}>
-        <Text style={localStyles.line}>
+        {/* Ki */}
+        <View style={localStyles.line}>
           <Text style={localStyles.key}>Ki: </Text>
           <Text style={localStyles.value}>{ki}</Text>
-        </Text>
+        </View>
 
         {/* Max Ki */}
-        <Text style={localStyles.line}>
+        <View style={localStyles.line}>
           <Text style={localStyles.key}>Max Ki: </Text>
           <Text style={localStyles.value}>{maxKi}</Text>
-        </Text>
+        </View>
 
         {/* Race */}
-        <Text style={localStyles.line}>
+        <View style={localStyles.line}>
           <Text style={localStyles.key}>Race: </Text>
           <Text style={localStyles.value}>{race}</Text>
-        </Text>
+        </View>
 
         {/* Gender */}
-        <Text style={localStyles.line}>
+        <View style={localStyles.line}>
           <Text style={localStyles.key}>Gender: </Text>
           <Text style={localStyles.value}>{gender}</Text>
-        </Text>
+        </View>
       </View>
 
       {/* Lista de transformaciones */}
       {transformations?.length > 0 && (
-        <View style={styles.stats}>
-          <Text h1 style={localStyles.sectionTitle}>
-            Transformations
-          </Text>
+        <View>
+          <Text style={localStyles.sectionTitle}>Transformations</Text>
           <FlatList
             data={transformations}
             horizontal
             showsHorizontalScrollIndicator={false}
+            contentContainerStyle={[{ paddingHorizontal: 10 }]}
             renderItem={({ item }) => <CardTransformation item={item} />}
             keyExtractor={(item) => `${item.id}`}
-            ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
             style={{ marginVertical: 20 }}
+            key="transformations-list"
+            removeClippedSubviews={false} // <- Add This
           />
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 }
 
@@ -103,6 +100,7 @@ const localStyles = StyleSheet.create({
   line: {
     marginBottom: 6,
     flexWrap: "wrap",
+    flexDirection: "row",
   },
   key: {
     color: "yellow",
@@ -114,6 +112,8 @@ const localStyles = StyleSheet.create({
   sectionTitle: {
     marginBottom: 10,
     color: "yellow",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   transformationBox: {
     marginBottom: 15,

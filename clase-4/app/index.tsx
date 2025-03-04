@@ -17,7 +17,7 @@ export default function Index() {
   });
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <>
       <Screen title="Dragon Expo Z" scroll={false}>
         {!isLoading && (
           <FlatList
@@ -55,6 +55,6 @@ export default function Index() {
         )}
       </Screen>
       <SearchBox />
-    </GestureHandlerRootView>
+    </>
   );
 }

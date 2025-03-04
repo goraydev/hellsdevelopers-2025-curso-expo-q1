@@ -15,7 +15,7 @@ export default function CardTransformation({ item }: InfoTransformation) {
       <Text color="white">Ki: {item.ki}</Text>
       <Image
         source={{ uri: item.image }}
-        style={{ height: 300 }}
+        style={{ height: 300, width: "100%" }}
         resizeMode="center"
       />
     </View>
