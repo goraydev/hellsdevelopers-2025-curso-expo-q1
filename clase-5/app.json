@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "DragonExpoZ",
-    "slug": "dragon-expo-z",
-    "version": "1.0.2",
+    "slug": "dragonballzapp",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "dragonexpoz",
@@ -32,9 +32,10 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#000"
+          "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
@@ -44,8 +45,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "4cc8ff02-6e5b-4cfa-a0e1-d84e23dc56e6"
+        "projectId": "07d9753f-511c-4d5d-a7f6-c4a650411efb"
       }
-    }
+    },
+    "owner": "goraydev"
   }
 }

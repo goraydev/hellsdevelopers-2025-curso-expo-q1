@@ -1,8 +1,9 @@
-import React, { useRef, useEffect } from 'react';
-import { View, Animated, StyleSheet } from 'react-native';
-import { Text } from '@/components/Text';
-import { styles } from './styles';
-import { type CharacterInfo } from '@/types/characters';
+import React, { useRef, useEffect } from "react";
+import { View, Animated, StyleSheet, ScrollView, FlatList } from "react-native";
+import { Text } from "@/components/Text";
+import { styles } from "./styles";
+import { type CharacterInfo } from "@/types/characters";
+import CardTransformation from "@/components/CardTransformation";
 
 export function CharacterInfo({
   description,
@@ -10,6 +11,7 @@ export function CharacterInfo({
   maxKi,
   race,
   gender,
+  name,
   transformations,
 }: CharacterInfo) {
   // Valor de animación para el efecto "saltando"
@@ -33,91 +35,98 @@ export function CharacterInfo({
     ).start();
   }, [jumpAnim]);
 
-  return (
-    <View style={styles.container}>
-      {/* Informacion principal */}
-      <View style={styles.properties}>
-        {/* Description */}
-        <Text style={localStyles.line}>
-          <Text style={localStyles.key}>Description: </Text>
-          <Text style={localStyles.value}>{description}</Text>
-        </Text>
+  useEffect(() => {
+    console.log(transformations);
+  }, [transformations]);
 
+  return (
+    <ScrollView style={styles.container}>
+      {/* Informacion principal */}
+      <View style={styles.container}>
+        {/* Description */}
+        <View style={localStyles.line}>
+          <Text style={localStyles.key} h1>
+            Descripción:{" "}
+          </Text>
+          <Text style={localStyles.value}>{description}</Text>
+        </View>
+      </View>
+      <View style={styles.container}>
+        <Text style={localStyles.sectionTitle} h1>
+          Habilidades
+        </Text>
         {/* Ki */}
-        <Text style={localStyles.line}>
+        <View style={localStyles.line}>
           <Text style={localStyles.key}>Ki: </Text>
           <Text style={localStyles.value}>{ki}</Text>
-        </Text>
+        </View>
 
         {/* Max Ki */}
-        <Text style={localStyles.line}>
+        <View style={localStyles.line}>
           <Text style={localStyles.key}>Max Ki: </Text>
           <Text style={localStyles.value}>{maxKi}</Text>
-        </Text>
+        </View>
 
         {/* Race */}
-        <Text style={localStyles.line}>
+        <View style={localStyles.line}>
           <Text style={localStyles.key}>Race: </Text>
           <Text style={localStyles.value}>{race}</Text>
-        </Text>
+        </View>
 
         {/* Gender */}
-        <Text style={localStyles.line}>
+        <View style={localStyles.line}>
           <Text style={localStyles.key}>Gender: </Text>
           <Text style={localStyles.value}>{gender}</Text>
-        </Text>
+        </View>
       </View>
 
       {/* Lista de transformaciones */}
       {transformations?.length > 0 && (
-        <View style={styles.stats}>
-          <Text h2 style={localStyles.sectionTitle}>Transformations</Text>
-          {transformations.map((transformation) => (
-            <View key={transformation.id} style={localStyles.transformationBox}>
-
-              {/* Nombre con efecto "saltando" */}
-              <Text style={localStyles.line}>
-                <Text style={localStyles.key}>Name: </Text>
-                <Animated.Text
-                  style={[
-                    localStyles.value,
-                    { transform: [{ translateY: jumpAnim }] },
-                  ]}
-                >
-                  {transformation.name}
-                </Animated.Text>
-              </Text>
-
-              {/* Ki de la transformación */}
-              <Text style={localStyles.line}>
-                <Text style={localStyles.key}>Ki: </Text>
-                <Text style={localStyles.value}>{transformation.ki}</Text>
-              </Text>
-            </View>
-          ))}
+        <View>
+          <Text style={[localStyles.sectionTitle, { marginTop: 10 }]} h1>
+            Transformations
+          </Text>
+          <FlatList
+            data={transformations}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={[{ paddingHorizontal: 10 }]}
+            renderItem={({ item }) => <CardTransformation item={item} />}
+            keyExtractor={(item) => `${item.id}`}
+            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+            style={{ marginVertical: 20 }}
+            key="transformations-list"
+            removeClippedSubviews={false} // <- Add This
+          />
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 }
 
 const localStyles = StyleSheet.create({
   line: {
     marginBottom: 6,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
+    flexDirection: "row",
   },
   key: {
-    color: 'yellow',
-    fontWeight: 'bold',
+    color: "yellow",
+    fontWeight: "bold",
   },
   value: {
-    color: 'white',
+    color: "white",
   },
   sectionTitle: {
     marginBottom: 10,
-    color: 'yellow',
+    color: "yellow",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   transformationBox: {
     marginBottom: 15,
+  },
+  description: {
+    marginVertical: 5,
   },
 });
