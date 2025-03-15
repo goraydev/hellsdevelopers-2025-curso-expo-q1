@@ -4,11 +4,10 @@ export const styles = StyleSheet.create({
   boxContainer: {
     flex: 1,
     margin: 5,
-    height: 260,
+    height: 280,
     width: "50%",
   },
   innerContainer: {
-    backgroundColor: "#22222299",
     paddingVertical: 8,
     paddingHorizontal: 16,
   },
@@ -17,11 +16,11 @@ export const styles = StyleSheet.create({
     width: "100%",
   },
   boxTitle: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 5,
     textAlign: "center",
-    color: "yellow",
+    color: "white",
   },
   tinyLogo: {
     width: "100%",

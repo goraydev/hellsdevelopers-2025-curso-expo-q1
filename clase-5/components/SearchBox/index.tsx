@@ -35,7 +35,7 @@ export function SearchBox({ characterFind, setCharacterFind }: Props) {
         }}
       >
         <TextInput
-          placeholder="Search for a character"
+          placeholder="Busca un personaje"
           variant="normal"
           inputMode="search"
           onEndEditing={(v) => setCharacterFind(v)}

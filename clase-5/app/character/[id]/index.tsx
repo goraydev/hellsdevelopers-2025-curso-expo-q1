@@ -34,7 +34,7 @@ export default function Vegeta() {
   }
 
   return (
-    <Screen title={`${characterInfo.name}`}>
+    <Screen title={`${characterInfo.name}`} color={characterInfo.color}>
       <MainImage uri={characterInfo.image} />
       <CharacterInfo
         description={characterInfo.description}
@@ -44,6 +44,7 @@ export default function Vegeta() {
         gender={characterInfo.gender}
         name={characterInfo.name}
         transformations={characterInfo.transformations}
+        color={characterInfo.color}
       />
     </Screen>
   );

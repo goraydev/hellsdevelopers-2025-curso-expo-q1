@@ -7,6 +7,7 @@ export type Character = {
   gender: string;
   description: string;
   image?: string;
+  color?: string;
   affiliation?: string;
   deletedAt?: string | null; // o Date | null si en tu lógica quieres manejar un objeto Date
 };

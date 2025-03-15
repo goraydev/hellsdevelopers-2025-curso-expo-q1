@@ -12,6 +12,7 @@ export function CharacterInfo({
   race,
   gender,
   name,
+  color,
   transformations,
 }: CharacterInfo) {
   // Valor de animación para el efecto "saltando"
@@ -48,7 +49,9 @@ export function CharacterInfo({
           <Text style={localStyles.key} h1>
             Descripción:{" "}
           </Text>
-          <Text style={localStyles.value}>{description}</Text>
+          <Text style={localStyles.value} color="white">
+            {description}
+          </Text>
         </View>
       </View>
       <View style={styles.container}>
@@ -57,26 +60,42 @@ export function CharacterInfo({
         </Text>
         {/* Ki */}
         <View style={localStyles.line}>
-          <Text style={localStyles.key}>Ki: </Text>
-          <Text style={localStyles.value}>{ki}</Text>
+          <Text style={localStyles.key} color="gold">
+            Ki:{" "}
+          </Text>
+          <Text style={localStyles.value} color="white">
+            {ki}
+          </Text>
         </View>
 
         {/* Max Ki */}
         <View style={localStyles.line}>
-          <Text style={localStyles.key}>Max Ki: </Text>
-          <Text style={localStyles.value}>{maxKi}</Text>
+          <Text style={localStyles.key} color="gold">
+            Max Ki:{" "}
+          </Text>
+          <Text style={localStyles.value} color="white">
+            {maxKi}
+          </Text>
         </View>
 
         {/* Race */}
         <View style={localStyles.line}>
-          <Text style={localStyles.key}>Race: </Text>
-          <Text style={localStyles.value}>{race}</Text>
+          <Text style={localStyles.key} color="gold">
+            Race:{" "}
+          </Text>
+          <Text style={localStyles.value} color="white">
+            {race}
+          </Text>
         </View>
 
         {/* Gender */}
         <View style={localStyles.line}>
-          <Text style={localStyles.key}>Gender: </Text>
-          <Text style={localStyles.value}>{gender}</Text>
+          <Text style={localStyles.key} color="gold">
+            Gender:{" "}
+          </Text>
+          <Text style={localStyles.value} color="white">
+            {gender}
+          </Text>
         </View>
       </View>
 
@@ -84,7 +103,7 @@ export function CharacterInfo({
       {transformations?.length > 0 && (
         <View>
           <Text style={[localStyles.sectionTitle, { marginTop: 10 }]} h1>
-            Transformations
+            Transformaciones
           </Text>
           <FlatList
             data={transformations}

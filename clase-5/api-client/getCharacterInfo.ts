@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { type CharacterInfo } from "@/types/characters";
+import { getColorFromImage } from "@/hooks/useImageColors";
 
 type Props = {
   id: string | string[];
@@ -16,8 +17,11 @@ export function useCharacterInfo({ id }: Props) {
         `https://dragonball-api.com/api/characters/${id}`
       );
       const json = await response.json();
-      setCharacterInfo(json);
-      return json;
+
+      const color = await getColorFromImage(json.image);
+      const character = { ...json, color: color };
+
+      return character;
     } catch (error) {
       console.error("error: ", error);
     } finally {
