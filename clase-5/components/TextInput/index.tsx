@@ -47,8 +47,6 @@ export function TextInput({
     localStyles.top = 0;
   }
 
-  
-
   return (
     <RNTextInput
       onChangeText={(v) => {

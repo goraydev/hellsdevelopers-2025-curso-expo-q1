@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 
 import { Header } from "@/components/Header";
@@ -26,7 +26,7 @@ export function Screen({ children, title, scroll = true, color }: Props) {
             {children}
           </ScrollView>
         ) : (
-          children
+          <View style={{ flex: 1 }}>{children}</View>
         )}
       </SafeAreaView>
     </SafeAreaProvider>

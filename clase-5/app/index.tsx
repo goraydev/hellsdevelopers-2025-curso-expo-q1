@@ -57,9 +57,16 @@ export default function Index() {
               Personajes
             </Text>
           )}
+          ListFooterComponent={() => (
+            <View style={{ height: 120, flex: 1 }}>
+              <Text center={true} color="white">
+                Total de personajes {filteredTeachers.length}
+              </Text>
+            </View>
+          )}
           ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
           style={{
-            marginBottom: 100,
+            flex: 1,
           }}
           numColumns={2}
           keyExtractor={(item) => `${item.id}`}

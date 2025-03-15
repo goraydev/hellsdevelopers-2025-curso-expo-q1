@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
   boxContainer: {
     flex: 1,
     margin: 5,
-    height: 280,
+    height: 300,
     width: "50%",
   },
   innerContainer: {

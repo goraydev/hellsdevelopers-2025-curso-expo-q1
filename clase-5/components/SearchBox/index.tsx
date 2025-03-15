@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { View } from "react-native";
 import { TextInput } from "@/components/TextInput";
-import { Text } from "@/components/Text";
+import { BlurView } from "expo-blur";
 
 interface Props {
   characterFind: string;
@@ -19,18 +19,14 @@ export function SearchBox({ characterFind, setCharacterFind }: Props) {
         width: "100%",
         position: "absolute",
         bottom: 0,
-        paddingHorizontal: 8,
-        backgroundColor: "transparent",
       }}
     >
-      <View
+      <BlurView
+        intensity={30}
         style={{
-          width: "100%",
-          borderColor: "black",
-          borderWidth: 1,
           paddingHorizontal: 8,
           borderRadius: 5,
-          backgroundColor: "#333",
+          backgroundColor: "rgba(0, 0, 0, 0.815)",
           flex: 1,
         }}
       >
@@ -42,8 +38,7 @@ export function SearchBox({ characterFind, setCharacterFind }: Props) {
           onChangeText={(v) => setLength(v.length)}
           maxLength={30}
         />
-        <Text red center bold>{`${length} / 30`}</Text>
-      </View>
+      </BlurView>
     </View>
   );
 }
