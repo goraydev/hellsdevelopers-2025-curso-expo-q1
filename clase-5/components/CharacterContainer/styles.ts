@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     width: "100%",
   },
   boxTitle: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
     marginBottom: 5,
     textAlign: "center",

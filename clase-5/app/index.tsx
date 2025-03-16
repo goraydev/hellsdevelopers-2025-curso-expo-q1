@@ -3,7 +3,6 @@ import { CharacterContainer } from "@/components/CharacterContainer";
 import { Screen } from "@/components/Screen";
 import { SearchBox } from "@/components/SearchBox";
 import { Text } from "@/components/Text";
-
 import { useCharacters } from "@/api-client/getCharacters";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";

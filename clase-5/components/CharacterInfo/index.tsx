@@ -36,10 +36,6 @@ export function CharacterInfo({
     ).start();
   }, [jumpAnim]);
 
-  useEffect(() => {
-    console.log(transformations);
-  }, [transformations]);
-
   return (
     <ScrollView style={styles.container}>
       {/* Informacion principal */}
