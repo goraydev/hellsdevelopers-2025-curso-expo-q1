@@ -22,7 +22,7 @@ export function SearchBox({ characterFind, setCharacterFind }: Props) {
       }}
     >
       <BlurView
-        intensity={30}
+        intensity={50}
         style={{
           paddingHorizontal: 8,
           borderRadius: 5,
