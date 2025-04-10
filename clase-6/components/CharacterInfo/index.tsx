@@ -4,6 +4,7 @@ import { Text } from "@/components/Text";
 import { styles } from "./styles";
 import { type TypeTableSchema } from "@/app/character/_database";
 import CardTransformation from "@/components/CardTransformation";
+import { insertCharacterItem } from "@/app/character/_database";
 
 export function CharacterInfo({
   description,

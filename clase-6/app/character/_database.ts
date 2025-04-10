@@ -66,17 +66,18 @@ export async function deleteAllItems() {
 }
 
 export async function insertCharacterItem(character: TypeTableSchema) {
+  console.log(character);
   await SQLiteManager.insert(tableName, character);
 }
 
-export async function getDataById(characterId: number) {
+export async function getDataById(characterId: string | string[] | number) {
   const result = await SQLiteManager.select(tableName, ["*"], {
     id: characterId,
   });
 
   if (result?.length === 0) return null;
 
-  return result?.[0];
+  return result?.pop() as TypeTableSchema;
 }
 
 export default function _database() {
