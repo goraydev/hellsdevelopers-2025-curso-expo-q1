@@ -1,46 +1,34 @@
-import React, { useState } from "react"
-import { View,   ImageBackground } from "react-native"
-import { Link } from 'expo-router';
+import React, { useState } from "react";
+import { View, Text } from "react-native";
+import { Link } from "expo-router";
 
-import { Text } from '@/components/Text'
-import { styles } from "./styles"
+import { styles } from "./styles";
 
-import { type Character } from '@/types/characters'
-import imageBackground from '@/assets/images/background-character.png'
-import { Image } from '@/components/Image'
+import { type Character } from "@/types/characters";
+import Image from "../Image";
 
 type Props = {
-    character: Character
-}
+  character: Character;
+};
 
 export function CharacterContainer({ character }: Props) {
-    const [bgColor, setBgColor] = useState('#CCC')
-    return (
-    <View style={styles.boxContainer}>
-    
-      <Link href={`/character/${character.id}`} >
-        
-            <ImageBackground
-                source={imageBackground}
-                style={styles.backgroundImage}
-                resizeMode="cover"
-            >
-            <View style={styles.innerContainer}>      
-                <Text variant="character-name">
-                    {character.name}
-                </Text>
-                <Image
-                    source={character.image }
-                    style={styles.tinyLogo}
-                />
-                <Text style={{ color: '#fff' }}>Ki: {character.ki}</Text>
-                <Text style={{ color: '#fff' }}>Max Ki: {character.maxKi}</Text>
-                <Text style={{ color: '#fff' }}>Race: {character.race}</Text>
-                <Text style={{ color: '#fff' }}>Gender: {character.gender}</Text>
-                <Text style={{ color: '#fff' }}>Affiliation: {character.affiliation}</Text>
-                </View>        
-            </ImageBackground>
+  return (
+    <View style={[styles.boxContainer, { backgroundColor: character.color }]}>
+      <Link href={`/character/${character.id}/`}>
+        <View style={styles.innerContainer}>
+          <Text style={[styles.boxTitle, { fontFamily: "Bangers_400Regular" }]}>
+            {character.name}
+          </Text>
+          <Image source={character.image} style={styles.tinyLogo} />
+          <Text style={{ color: "#fff" }}>Ki: {character.ki}</Text>
+          <Text style={{ color: "#fff" }}>Max Ki: {character.maxKi}</Text>
+          <Text style={{ color: "#fff" }}>Race: {character.race}</Text>
+          <Text style={{ color: "#fff" }}>Gender: {character.gender}</Text>
+          <Text style={{ color: "#fff" }}>
+            Affiliation: {character.affiliation}
+          </Text>
+        </View>
       </Link>
     </View>
-    )
+  );
 }

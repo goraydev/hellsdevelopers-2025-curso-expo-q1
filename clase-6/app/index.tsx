@@ -1,54 +1,83 @@
-
-import { useState, useEffect } from 'react'
-import { FlatList, View } from 'react-native'
-import { Link } from 'expo-router'
-import { CharacterContainer } from '@/components/CharacterContainer'
-import  { Screen } from '@/components/Screen'
-import { SearchBox } from '@/components/SearchBox'
-import { Text } from '@/components/Text'
-
-
-import { useCharacters } from '@/api-client/getCharacters'
-import { type Character } from '@/types/characters'
+import { FlatList, View } from "react-native";
+import { CharacterContainer } from "@/components/CharacterContainer";
+import { Screen } from "@/components/Screen";
+import { SearchBox } from "@/components/SearchBox";
+import { Text } from "@/components/Text";
+import { useCharacters } from "@/api-client/getCharacters";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { Character } from "@/types/characters";
+import { Link } from "expo-router";
 
 export default function Index() {
-    const { characters, refreshing, fetchCharacters } = useCharacters()
-    const [searchQuery, setSearchQuery] = useState('')
-    const [result, setResult] = useState<Character[]>([])
+  const { refreshing, fetchCharacters } = useCharacters();
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
+  const { data, isLoading }: { data?: Character[]; isLoading: boolean } =
+    useQuery({
+      queryKey: ["characters"],
+      queryFn: fetchCharacters,
+    });
 
-    useEffect(() => {
-        if (searchQuery.length === 0) {
-            setResult(characters)
-        }
-        const tmp = characters.filter((character) => character.name.toLowerCase().indexOf(searchQuery.toLowerCase())> -1)
-        setResult(tmp)
-    }, [searchQuery, characters])
+  const filteredTeachers: Character[] = !isLoading
+    ? data?.filter((c) =>
+        c.name.toLowerCase().includes(searchTerm.toLowerCase())
+      ) ?? []
+    : [];
+
+  if (isLoading) {
     return (
-    <>
-        <Screen title="Dragon Expo Z" scroll={false} showHello={true} showBack={false}>
-            <Link href="/prueba" style={{ color: '#fff'}}>Test</Link>
-            <FlatList
-                refreshing={refreshing}
-                onRefresh={() => {
-                    fetchCharacters()
-                }}
-                data={result}
-                renderItem={({ item }) => <CharacterContainer key={item.id} character={item} />}
-                ListEmptyComponent={() => <Text center red>No hay elementos</Text>}
-                ListFooterComponent={() => (<View style={{ flex: 1, height: 100}}>
-                    <Text center color="#fff">{`Total de personajes: ${characters.length}`}</Text>
-                </View>) }
-                ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-                style={{
-                    flex: 1,
-                }}
-                numColumns={2}
-                keyExtractor={(item) => `${item.id}`}
-            />
-        </Screen>
-        <SearchBox onChangeText={(v) => setSearchQuery(v)} />
-    </>
-    )
-}
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text center color="white">
+          Cargando...
+        </Text>
+      </View>
+    );
+  }
 
+  return (
+    <>
+      <Screen title="Dragon Expo Z" scroll={false}>
+        <Link href="/prueba">
+          <Text color="white" h2>
+            Prueba
+          </Text>
+        </Link>
+        <FlatList
+          refreshing={refreshing}
+          onRefresh={() => {
+            fetchCharacters();
+          }}
+          data={filteredTeachers}
+          renderItem={({ item }) => (
+            <CharacterContainer key={item.id} character={item} />
+          )}
+          ListEmptyComponent={() => (
+            <Text center red>
+              No hay elementos
+            </Text>
+          )}
+          ListHeaderComponent={() => (
+            <Text center color="#fff">
+              Personajes
+            </Text>
+          )}
+          ListFooterComponent={() => (
+            <View style={{ height: 120, flex: 1 }}>
+              <Text center={true} color="white">
+                Total de personajes {filteredTeachers.length}
+              </Text>
+            </View>
+          )}
+          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+          style={{
+            flex: 1,
+          }}
+          numColumns={2}
+          keyExtractor={(item) => `${item.id}`}
+        />
+      </Screen>
+      <SearchBox characterFind={searchTerm} setCharacterFind={setSearchTerm} />
+    </>
+  );
+}

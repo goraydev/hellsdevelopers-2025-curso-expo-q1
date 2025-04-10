@@ -1,26 +1,26 @@
-import { useEffect } from 'react'
-import { Text, View } from 'react-native'
+import { Screen } from "@/components/Screen";
+import { Text } from "@/components/Text";
+import { useQuery } from "expo-sqlite-reactive";
+import { useEffect } from "react";
+import { getData } from "../boot/_database";
 
-import { getData } from '@/app/boot/_database'
-
-export default function TestScreen() {
-        
-    async function getLogs() {
-        try {
-            const data = await getData()
-            console.info('logs: ', data)
-
-        } catch (err) {
-            console.info('error: ', err)
-        }
+export default function PruebaScreen() {
+  async function getLogs() {
+    try {
+      const data = await getData();
+      console.log(data);
+    } catch (error) {
+      console.error(error);
     }
-    useEffect(() => {
-        getLogs()
-    }, [])
+  }
 
-    return (
-        <View style={{ flex: 1, backgroundColor: '#efefef', paddingTop: 40 }}>
-            <Text>Test</Text>
-        </View>
-    )
+  useEffect(() => {
+    getLogs();
+  }, []);
+
+  return (
+    <Screen>
+      <Text color="white">TestScreen</Text>
+    </Screen>
+  );
 }

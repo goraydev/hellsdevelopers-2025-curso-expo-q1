@@ -1,21 +1,22 @@
-import React from 'react';
-import { Image, View, useWindowDimensions } from 'react-native';
+import React from "react";
+import { Image, View, useWindowDimensions } from "react-native";
 
-import { styles } from './styles';
+import { styles } from "./styles";
 
 type Props = {
-    uri: string
-}
+  uri: string | undefined;
+};
 
 export function MainImage({ uri }: Props) {
-    const {height, width, scale, fontScale} = useWindowDimensions();
-    return (
-        <View>
-            <Image
-                source={{ uri }}
-                style={[styles.image, { height: height * 0.8, width }]}
-                resizeMode="contain"
-            />
-        </View>
-    );
+  const { height, width, scale, fontScale } = useWindowDimensions();
+  return (
+    <View>
+      <Image
+        source={{ uri }}
+        style={[styles.image, { height: height * 0.8 }]}
+        resizeMode="contain"
+      />
+    </View>
+  );
 }
+
