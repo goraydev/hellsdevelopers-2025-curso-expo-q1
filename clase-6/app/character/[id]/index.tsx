@@ -13,17 +13,17 @@ import { View } from "react-native";
 export default function Vegeta() {
   const { id } = useLocalSearchParams();
 
-  const { fetchCharacterInfo } = useCharacterInfo({
+  const { fetchTansaqQuery } = useCharacterInfo({
     id,
   });
 
   const { data: characterInfo, isLoading } = useQuery({
     queryKey: ["character", id],
-    queryFn: fetchCharacterInfo,
+    queryFn: fetchTansaqQuery,
     enabled: !!id,
   });
 
-  if (isLoading) {
+  if (isLoading || !characterInfo) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text center color="white">
@@ -37,6 +37,7 @@ export default function Vegeta() {
     <Screen title={`${characterInfo.name}`} color={characterInfo.color}>
       <MainImage uri={characterInfo.image} />
       <CharacterInfo
+        id={characterInfo.id}
         description={characterInfo.description}
         ki={characterInfo.ki}
         maxKi={characterInfo.maxKi}

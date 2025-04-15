@@ -1,5 +1,4 @@
 import { SQLiteManager } from "expo-sqlite-reactive";
-import { useEffect } from "react";
 import uuid from "react-native-uuid";
 
 export type TypeTableSchema = {

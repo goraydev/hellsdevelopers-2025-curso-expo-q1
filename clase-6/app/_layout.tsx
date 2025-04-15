@@ -14,6 +14,7 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { initializeDB } from "@/db/initialize";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { insertBootItem } from "./boot/_database";
+import { deleteAllItems } from "./character/_database";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -35,7 +36,7 @@ export default function RootLayout() {
   useEffect(() => {
     initializeDB().then(() => {
       setInitialized(true);
-      insertBootItem("Boot item");
+      insertBootItem("DB initialized");
     });
   }, []);
 

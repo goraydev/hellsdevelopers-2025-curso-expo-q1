@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { type CharacterInfo } from "@/types/characters";
 import { getColorFromImage } from "@/hooks/useImageColors";
 import {
   getDataById,
@@ -12,70 +10,52 @@ type Props = {
 };
 
 export function useCharacterInfo({ id }: Props) {
-  const [characterInfo, setCharacterInfo] = useState<TypeTableSchema>();
-  const [refreshing, setRefreshing] = useState(false);
-
-  async function fetchCharacterInfo() {
+  // Esta función será usada por TanStack Query
+  async function fetchData() {
     try {
-      setRefreshing(true);
+      // Verificar si existe en la base de datos
       const cacheData = await getDataById(id);
-
       if (cacheData) {
-        //console.log('from database');
-        setCharacterInfo(cacheData);
-        return;
+        console.log("from database");
+        return cacheData;
       }
 
-      //console.log('from network');
+      console.log("from network");
       const response = await fetch(
         `https://dragonball-api.com/api/characters/${id}`
       );
       const json = await response.json();
 
-      insertCharacterItem({
-        id: json.id,
-        name: json.name,
-        ki: json.ki,
-        maxKi: json.maxKi,
-        race: json.race,
-        gender: json.gender,
-        description: json.description,
-        image: json.image,
-        originPlanet: {
-          origenPlanetId: json.originPlanet.id,
-          origenPlanetName: json.originPlanet.name,
-          origenPlanetIsDestroyed: json.originPlanet.isDestroyed,
-          origenPlanetDescription: json.originPlanet.description,
-          origenPlanetImage: json.originPlanet.image,
-          origenPlanetDeletedAt: json.originPlanet.deletedAt,
-        },
-        transformations: json.transformations.map((trans: any) => ({
-          id: trans.id,
-          name: trans.name,
-          image: trans.image,
-          ki: trans.ki,
-          deletedAt: trans.deletedAt,
-        })),
-      });
-
       const color = await getColorFromImage(json.image);
       const character = { ...json, color: color };
 
+      // Guardar en la base de datos
+      try {
+        await insertCharacterItem({
+          id: json.id,
+          name: json.name,
+          ki: json.ki,
+          maxKi: json.maxKi,
+          race: json.race,
+          gender: json.gender,
+          description: json.description,
+          image: json.image,
+          color: color || "",
+          affiliation: json.affiliation || "",
+          deletedAt: json.deletedAt || "",
+        });
+      } catch (error) {
+        console.log("Error al guardar en DB, pero continuamos:", error);
+      }
+
       return character;
     } catch (error) {
-      console.error("error: ", error);
-    } finally {
-      setRefreshing(false);
+      console.error("error:", error);
+      throw error;
     }
   }
 
-  useEffect(() => {
-    fetchCharacterInfo();
-  }, []);
-
   return {
-    characterInfo,
-    refreshing,
-    fetchCharacterInfo,
+    fetchTansaqQuery: fetchData,
   };
 }
