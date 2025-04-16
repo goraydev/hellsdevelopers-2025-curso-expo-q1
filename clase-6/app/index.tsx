@@ -10,13 +10,13 @@ import { Character } from "@/types/characters";
 import { Link } from "expo-router";
 
 export default function Index() {
-  const { refreshing, fetchCharacters } = useCharacters();
+  const { fetchTansaqQuery } = useCharacters();
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const { data, isLoading }: { data?: Character[]; isLoading: boolean } =
     useQuery({
       queryKey: ["characters"],
-      queryFn: fetchCharacters,
+      queryFn: fetchTansaqQuery,
     });
 
   const filteredTeachers: Character[] = !isLoading
@@ -44,10 +44,6 @@ export default function Index() {
           </Text>
         </Link>
         <FlatList
-          refreshing={refreshing}
-          onRefresh={() => {
-            fetchCharacters();
-          }}
           data={filteredTeachers}
           renderItem={({ item }) => (
             <CharacterContainer key={item.id} character={item} />
