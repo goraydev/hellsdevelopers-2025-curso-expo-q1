@@ -1,9 +1,9 @@
 import { getColorFromImage } from "@/hooks/useImageColors";
+import { getDataById, insertCharacterItem } from "@/app/character/_database";
 import {
-  getDataById,
-  insertCharacterItem,
-  TypeTableSchema,
-} from "@/app/character/_database";
+  insertTransformationItem,
+  transformations,
+} from "@/app/transformations/_database";
 
 type Props = {
   id: string | string[] | number;
@@ -29,7 +29,7 @@ export function useCharacterInfo({ id }: Props) {
       const color = await getColorFromImage(json.image);
       const character = { ...json, color: color };
 
-      // Guardar en la base de datos
+      // Guardar heroe en la base de datos
       try {
         await insertCharacterItem({
           id: json.id,
@@ -47,6 +47,32 @@ export function useCharacterInfo({ id }: Props) {
       } catch (error) {
         console.log("Error al guardar en DB, pero continuamos:", error);
       }
+
+      //Guardar transformación en la base de datos
+      const transformations = json?.transformations?.map(
+        async (t: transformations) => {
+          if (t.id === undefined) return;
+
+          try {
+            await insertTransformationItem({
+              id: t.id,
+              characterId: json.id,
+              name: t.name,
+              image: t.image,
+              ki: t.ki,
+              deletedAt: t.deletedAt || "",
+            });
+          } catch (error) {
+            console.log(
+              "Error al guardar transformacion en la DB, pero continuamos:",
+              error
+            );
+          }
+          return {
+            ...t,
+          };
+        }
+      );
 
       return character;
     } catch (error) {

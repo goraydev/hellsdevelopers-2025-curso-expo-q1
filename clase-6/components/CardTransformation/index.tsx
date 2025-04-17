@@ -1,4 +1,4 @@
-import { CharacterInfo, CharacterTransformation } from "@/types/characters";
+import { CharacterTransformation } from "@/types/characters";
 import React from "react";
 import { Image, View } from "react-native";
 import { Text } from "../Text";

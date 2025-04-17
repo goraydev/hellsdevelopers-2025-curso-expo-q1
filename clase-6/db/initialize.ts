@@ -8,6 +8,8 @@ import {
   deleteAllItems as DeleteAllTableCharacters,
 } from "@/app/character/_database";
 
+import { createTable as CreateTableTransformation } from "@/app/transformations/_database";
+
 import { createTable as CreateTableCharacters } from "@/app/characters/_database";
 import { SQLiteManager } from "expo-sqlite-reactive";
 
@@ -19,5 +21,7 @@ export async function initializeDB() {
   await insertBootItem("table characters created");
   await CreateTableCharacters();
   await insertBootItem("table allcharacters created");
+  await CreateTableTransformation();
+  await insertBootItem("table transformations created");
   /* await DeleteAllTableCharacters(); */
 }

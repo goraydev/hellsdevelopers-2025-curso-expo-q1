@@ -1,6 +1,5 @@
 import { Screen } from "@/components/Screen";
 import { Text } from "@/components/Text";
-import { useQuery } from "expo-sqlite-reactive";
 import { useEffect } from "react";
 import { getData } from "../boot/_database";
 
