@@ -1,11 +1,11 @@
 import { Screen } from "@/components/Screen";
-import { Text } from "@/components/Text";
+import Home from "./home";
 
 export default function Index() {
   return (
     <>
-      <Screen title="Ecommerce App" scroll={false}>
-        <Text h1>Ecommerce</Text>
+      <Screen title="Ecommerce App" scroll>
+        <Home />
       </Screen>
     </>
   );

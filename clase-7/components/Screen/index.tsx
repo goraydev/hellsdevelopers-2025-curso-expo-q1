@@ -5,6 +5,7 @@ import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { Header } from "@/components/Header";
 
 import { styles } from "./styles";
+import { Text } from "../Text";
 
 type Props = {
   children: React.ReactNode;
@@ -26,7 +27,10 @@ export function Screen({ children, title, scroll = true, color }: Props) {
             {children}
           </ScrollView>
         ) : (
-          <View style={{ flex: 1 }}>{children}</View>
+          <View style={{ flex: 1, paddingHorizontal: 16 }}>
+            {children}
+            <Text>Hola</Text>
+          </View>
         )}
       </SafeAreaView>
     </SafeAreaProvider>
