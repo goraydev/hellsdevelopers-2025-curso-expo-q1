@@ -4,7 +4,7 @@ import { Text } from "@/components/Text";
 export default function Index() {
   return (
     <>
-      <Screen title="Ecommerce" scroll={false}>
+      <Screen title="Ecommerce App" scroll={false}>
         <Text h1>Ecommerce</Text>
       </Screen>
     </>
