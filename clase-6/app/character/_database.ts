@@ -12,6 +12,7 @@ export type Character = {
   image?: string;
   affiliation?: string;
   deletedAt?: string;
+  transformations?: Transformation[];
 };
 
 export type TypeTableSchema = Character & {
@@ -31,6 +32,14 @@ export type TypeTableSchema = Character & {
     deletedAt: string | null;
   }>;
 };
+
+export interface Transformation {
+  id: number;
+  name: string;
+  image: string;
+  ki: string;
+  deletedAt: null;
+}
 
 export const tableName = "characters";
 
@@ -75,13 +84,24 @@ export async function insertCharacterItem(character: Character) {
 }
 
 export async function getDataById(characterId: string | string[] | number) {
-  const result = await SQLiteManager.select(tableName, ["*"], {
+  const character = await SQLiteManager.select(tableName, ["*"], {
     id: characterId,
   });
 
-  if (result?.length === 0) return null;
+  if (character?.length === 0 || !character) return null;
 
-  return result?.pop() as Character;
+  const result = character[0] as Character;
+
+  const transformations = (await SQLiteManager.select(
+    "transformations",
+    ["*"],
+    {
+      characterId: characterId,
+    }
+  )) as Transformation[];
+
+  result.transformations = transformations || [];
+  return result;
 }
 
 export default function _database() {
