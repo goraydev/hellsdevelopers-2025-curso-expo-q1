@@ -1,18 +1,12 @@
-
-import { useState, useEffect } from 'react'
-import  { Screen } from '@/components/Screen'
-import { SearchBox } from '@/components/SearchBox'
-import { Text } from '@/components/Text'
-
+import { Screen } from "@/components/Screen";
+import { Text } from "@/components/Text";
 
 export default function Index() {
-    return (
+  return (
     <>
-        <Screen title="E-commerce" scroll={false} showHello={true} showBack={false}>
-          <Text>Vamos a crear un e-commerce</Text>
-        </Screen>
-        <SearchBox onChangeText={(v) => {}} />
+      <Screen title="Ecommerce" scroll={false}>
+        <Text h1>Ecommerce</Text>
+      </Screen>
     </>
-    )
+  );
 }
-

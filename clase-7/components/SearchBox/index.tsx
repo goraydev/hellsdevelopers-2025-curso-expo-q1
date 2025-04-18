@@ -1,48 +1,44 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
-import { View } from 'react-native'
-import { TextInput } from '@/components/TextInput'
+import { View } from "react-native";
+import { TextInput } from "@/components/TextInput";
+import { BlurView } from "expo-blur";
 
-
-type Props = {
-    onChangeText?: (v: string) => void
+interface Props {
+  characterFind: string;
+  setCharacterFind: React.Dispatch<React.SetStateAction<string>>;
 }
-export function SearchBox({ onChangeText  = () => {}}: Props) {
-    return (
-        <View
-            style={{
-                height: 80,
-                width: '100%',
-                paddingHorizontal: 10,
-                position: 'absolute',
-                bottom: 2,
-            }}
-        >
-            <View
-                style={{
-                    marginHorizontal: 10,
-                    flex: 1,
-                }}
-            >
-                <TextInput
-                    placeholder='Search for a character'
-                    variant='normal'
-                    inputMode='search'
-                    onEndEditing={(v) => console.log(v)}
-                    onChangeText={(v) => onChangeText(v)}
-                    maxLength={30}
-                    style={{
-                        backgroundColor: '#333333EE',
-                        borderWidth: 1,
-                        borderRadius: 5,
-                        paddingHorizontal: 8,
-                        paddingVertical: 16,
-                        height: 50,
-                        color: '#fff',
-                        fontSize: 16,
-                    }}
-                />
-            </View>
-        </View>
-    )
+
+export function SearchBox({ characterFind, setCharacterFind }: Props) {
+  const [length, setLength] = useState(0);
+
+  return (
+    <View
+      style={{
+        height: 80,
+        width: "100%",
+        position: "absolute",
+        bottom: 0,
+      }}
+    >
+      <BlurView
+        intensity={50}
+        style={{
+          paddingHorizontal: 8,
+          borderRadius: 5,
+          backgroundColor: "rgba(0, 0, 0, 0.815)",
+          flex: 1,
+        }}
+      >
+        <TextInput
+          placeholder="Busca un personaje"
+          variant="normal"
+          inputMode="search"
+          onEndEditing={(v) => setCharacterFind(v)}
+          onChangeText={(v) => setLength(v.length)}
+          maxLength={30}
+        />
+      </BlurView>
+    </View>
+  );
 }

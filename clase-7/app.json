@@ -1,23 +1,23 @@
 {
   "expo": {
-    "name": "Ferrak",
-    "slug": "stock42-ferrak",
+    "name": "EcommerceApp",
+    "slug": "ecommerceapp",
     "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "ferrak",
+    "scheme": "ecommerceapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.stock42.dragonexpoz"
+      "bundleIdentifier": "com.stock42.ecommerceapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.stock42.ferrak"
+      "package": "com.stock42.ecommerceapp"
     },
     "web": {
       "bundler": "metro",
@@ -32,9 +32,10 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#000"
+          "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
@@ -44,8 +45,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "4cc8ff02-6e5b-4cfa-a0e1-d84e23dc56e6"
+        "projectId": "07d9753f-511c-4d5d-a7f6-c4a650411efb"
       }
-    }
+    },
+    "owner": "goraydev"
   }
 }
