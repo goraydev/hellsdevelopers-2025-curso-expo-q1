@@ -7,10 +7,10 @@ import {
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "react-native-reanimated";
 import { Bangers_400Regular, useFonts } from "@expo-google-fonts/bangers";
-
+import { initializeDB } from "@/db/initialize";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -25,6 +25,7 @@ const SpaceMono = require("@/assets/fonts/SpaceMono-Regular.ttf");
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const [initDB, setInitDB] = useState(false);
   const [loaded] = useFonts({
     SpaceMono: SpaceMono,
     Bangers_400Regular,
@@ -33,10 +34,13 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
+
+      //Inicializar la BD
+      initializeDB().then(() => setInitDB(true));
     }
   }, [loaded]);
 
-  if (!loaded) {
+  if (!loaded || !initDB) {
     return null;
   }
 
@@ -47,6 +51,9 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="users" options={{ headerShown: false }} />
+          <Stack.Screen name="users/login/index" options={{ headerShown: false }} />
+          <Stack.Screen name="home/index" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="auto" />

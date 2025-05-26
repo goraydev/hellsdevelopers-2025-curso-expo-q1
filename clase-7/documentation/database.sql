@@ -40,7 +40,7 @@ CREATE TABLE "users" (
 	"user_password"	TEXT NOT NULL,
 	PRIMARY KEY("user_id" AUTOINCREMENT)
 );
-
+ 
 CREATE TABLE "orders_status" (
     "order_status_id"	INTEGER NOT NULL UNIQUE,
     "order_status_name"	TEXT NOT NULL,

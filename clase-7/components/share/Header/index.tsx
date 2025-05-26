@@ -2,7 +2,7 @@ import React from "react";
 import { View, TouchableHighlight } from "react-native";
 import { router } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { Text } from "@/components/Text";
+import { Text } from "@/components/share/Text";
 
 import { styles } from "./styles";
 

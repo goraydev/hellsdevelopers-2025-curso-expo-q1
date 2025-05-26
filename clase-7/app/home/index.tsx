@@ -1,16 +1,10 @@
-import React from "react";
-import { Text, View } from "react-native";
+import { Screen } from "@/components/share/Screen";
+import { Text } from "@/components/share/Text";
 
 export default function Home() {
   return (
-    <View>
-      <Text style={{ color: "white" }}>Home</Text>
-      <Text style={{ color: "white", textAlign: "justify" }}>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci
-        aliquam reprehenderit quia. Iure veniam, vero perferendis blanditiis
-        nisi reiciendis, id temporibus ea aperiam suscipit, saepe non porro.
-        Dolorem, quos architecto?
-      </Text>
-    </View>
+    <Screen>
+      <Text color="#fff">Home</Text>
+    </Screen>
   );
 }

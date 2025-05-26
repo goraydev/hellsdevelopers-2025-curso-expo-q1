@@ -8,7 +8,7 @@ type Props = {
 };
 
 export function MainImage({ uri }: Props) {
-  const { height, width, scale, fontScale } = useWindowDimensions();
+  const { height } = useWindowDimensions();
   return (
     <View>
       <Image

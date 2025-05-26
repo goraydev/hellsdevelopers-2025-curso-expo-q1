@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { View } from "react-native";
-import { TextInput } from "@/components/TextInput";
+import { TextInput } from "@/components/share/TextInput";
 import { BlurView } from "expo-blur";
 
 interface Props {
