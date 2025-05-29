@@ -1,11 +1,18 @@
-import {
-  createTable as CreateTableProducts,
-  deleteAllItems,
-} from "@/app/products/_database";
 import { SQLiteManager } from "expo-sqlite-reactive";
-import { initiDB as initUserData } from "../app/users/_layout";
+import {
+  createTable as createTableBoot,
+  deleteAllItems,
+  insertBootItem,
+} from "@/app/boot/_database";
+import { initiDB as initUserData } from "@/app/users/_layout";
+import { initLocalStorage } from "./localStorage";
 
 export async function initializeDB() {
-  SQLiteManager.initialize("ecommerceapp.db");
+  SQLiteManager.initialize("stock42-ferrak.db");
+  await createTableBoot();
+  await deleteAllItems();
+  await insertBootItem("remove all logs");
   await initUserData();
+  await insertBootItem("init user data");
+  await initLocalStorage();
 }
