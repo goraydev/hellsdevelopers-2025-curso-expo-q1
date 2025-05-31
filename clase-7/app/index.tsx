@@ -7,6 +7,8 @@ export default function Index() {
       <Screen title="Ecommerce App" scroll={false}>
         <Link href="/users/login">Users/Login</Link>
         <Link href="/home">Home</Link>
+        <Link href="/backoffice">Backoffice</Link>
+        <Link href="/products">Productos</Link>
       </Screen>
     </>
   );

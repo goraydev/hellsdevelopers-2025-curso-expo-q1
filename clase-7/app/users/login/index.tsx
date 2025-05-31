@@ -12,7 +12,8 @@ import {
 import { useRouter } from "expo-router";
 
 // Importa tu función para validar usuario y contraseña
-import { checkUserAndPassword } from "@/app/users/_database"; // Ajusta la ruta según tu proyecto
+import { checkUserAndPassword, getEntityByEmail } from "@/app/users/_database"; // Ajusta la ruta según tu proyecto
+import { storeData } from "@/db/localStorage";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -30,13 +31,9 @@ export default function LoginScreen() {
         return;
       }
 
-      // Aquí podrías integrar lógica para almacenar la sesión
-      // si `rememberSession` está en true, por ejemplo en SecureStore
-      // o AsyncStorage, y luego habilitar biometría con expo-local-authentication
-
-      // Si el login es exitoso, navega a otra pantalla
+      const userInfo = await getEntityByEmail(userEmail);
+      storeData("user", JSON.stringify(userInfo));
       router.push("/home");
-      // (Ajusta la ruta y tu flujo de navegación según tu estructura)
     } catch (error) {
       console.error("Error en handleLogin:", error);
       Alert.alert("Error", "Ha ocurrido un error al intentar iniciar sesión");

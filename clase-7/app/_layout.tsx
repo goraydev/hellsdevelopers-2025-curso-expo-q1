@@ -3,8 +3,9 @@ import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
+  useRoute,
 } from "@react-navigation/native";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
@@ -13,6 +14,7 @@ import { Bangers_400Regular, useFonts } from "@expo-google-fonts/bangers";
 import { initializeDB } from "@/db/initialize";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { getData } from "@/db/localStorage";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -24,6 +26,7 @@ SplashScreen.setOptions({
 const SpaceMono = require("@/assets/fonts/SpaceMono-Regular.ttf");
 
 export default function RootLayout() {
+  const router = useRouter();
   const colorScheme = useColorScheme();
   const [initDB, setInitDB] = useState(false);
   const [loaded] = useFonts({
@@ -40,20 +43,36 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
+  const queryClient = new QueryClient();
+
+  useEffect(() => {
+    if (initDB) {
+      getData("user")
+        .then((user) => {
+          if (user) {
+            router.push("/backoffice");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [initDB]);
+
   if (!loaded || !initDB) {
     return null;
   }
 
-  const queryClient = new QueryClient();
-
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="users" options={{ headerShown: false }} />
-          <Stack.Screen name="users/login/index" options={{ headerShown: false }} />
-          <Stack.Screen name="home/index" options={{ headerShown: false }} />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="users/index" />
+          <Stack.Screen name="login/index" />
+          <Stack.Screen name="home/index" />
+          <Stack.Screen name="backoffice/index" />
+          <Stack.Screen name="products/index" />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="auto" />
