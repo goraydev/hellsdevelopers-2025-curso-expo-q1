@@ -14,10 +14,11 @@ import { useRouter } from "expo-router";
 // Importa tu función para validar usuario y contraseña
 import { checkUserAndPassword, getEntityByEmail } from "@/app/users/_database"; // Ajusta la ruta según tu proyecto
 import { storeData } from "@/db/localStorage";
+import { useStore } from "@/store/storte";
 
 export default function LoginScreen() {
   const router = useRouter();
-
+  const setState = useStore((state) => state.setState);
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [rememberSession, setRememberSession] = useState(false);
@@ -32,7 +33,12 @@ export default function LoginScreen() {
       }
 
       const userInfo = await getEntityByEmail(userEmail);
+      if (!userInfo) {
+        Alert.alert("Error", "No se encontró información del usuario");
+        return;
+      }
       storeData("user", JSON.stringify(userInfo));
+      setState(userInfo);
       router.push("/home");
     } catch (error) {
       console.error("Error en handleLogin:", error);

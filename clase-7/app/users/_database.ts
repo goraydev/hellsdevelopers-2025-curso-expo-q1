@@ -1,10 +1,11 @@
 import { SQLiteManager } from "expo-sqlite-reactive";
 
 export type User = {
-  user_id: number;
+  user_id?: number;
   user_name: string;
   user_email: string;
   user_password: string;
+  user_level: number;
 };
 
 export const tableName = "users";
@@ -16,6 +17,7 @@ export async function createTable() {
       user_name: "text not null",
       user_email: "text not null",
       user_password: "text not null",
+      user_level: "integer",
     });
     console.log("Tabla users creada con éxito");
   } catch (error) {
@@ -31,6 +33,7 @@ export async function existsFirstOrCreate() {
       user_name: "admin",
       user_email: "admin@gmail.com",
       user_password: "admin1234",
+      user_level: 1,
     });
   }
 }
@@ -72,7 +75,7 @@ export async function deleteAllUsers() {
 export async function insertItemUser(user: User) {
   try {
     await SQLiteManager.insert(tableName, user);
-    console.log("Elemento insertado con éxito");
+    console.log("usuario creado con éxito");
   } catch (error) {
     console.error("Error al insertar el elemento", error);
   }

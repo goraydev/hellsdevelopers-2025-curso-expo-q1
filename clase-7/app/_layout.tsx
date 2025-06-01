@@ -15,6 +15,8 @@ import { initializeDB } from "@/db/initialize";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { getData } from "@/db/localStorage";
+import parserData from "@/helpers/parserData";
+import { useStore } from "@/store/storte";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -28,6 +30,8 @@ const SpaceMono = require("@/assets/fonts/SpaceMono-Regular.ttf");
 export default function RootLayout() {
   const router = useRouter();
   const colorScheme = useColorScheme();
+  const setState = useStore((state) => state.setState);
+
   const [initDB, setInitDB] = useState(false);
   const [loaded] = useFonts({
     SpaceMono: SpaceMono,
@@ -50,7 +54,15 @@ export default function RootLayout() {
       getData("user")
         .then((user) => {
           if (user) {
-            router.push("/backoffice");
+            const getData = parserData(user);
+
+            setState(getData);
+
+            if (getData.user_level === 1) {
+              router.push("/backoffice");
+              return;
+            }
+            router.push("/home");
           }
         })
         .catch((error) => {
@@ -70,6 +82,7 @@ export default function RootLayout() {
           <Stack.Screen name="index" />
           <Stack.Screen name="users/index" />
           <Stack.Screen name="login/index" />
+          <Stack.Screen name="signup/index" />
           <Stack.Screen name="home/index" />
           <Stack.Screen name="backoffice/index" />
           <Stack.Screen name="products/index" />
