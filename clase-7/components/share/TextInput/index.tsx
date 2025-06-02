@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { TextInput as RNTextInput } from "react-native";
+import { TextInput as RNTextInput, TextStyle, ViewStyle } from "react-native";
 
 import { styles } from "./styles";
 
@@ -21,6 +21,8 @@ type Props = {
   numberOfLines?: number;
   onEndEditing?: (v: string) => void;
   onChangeText?: (v: string) => void;
+  style?: ViewStyle & TextStyle;
+  placeholderTextColor?: string;
 };
 
 export function TextInput({
@@ -32,6 +34,8 @@ export function TextInput({
   numberOfLines,
   onEndEditing = (v) => {},
   onChangeText = (v) => {},
+  style,
+  placeholderTextColor = "#999",
 }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -46,7 +50,6 @@ export function TextInput({
     localStyles.position = "absolute";
     localStyles.top = 0;
   }
-
   return (
     <RNTextInput
       onChangeText={(v) => {
@@ -54,11 +57,12 @@ export function TextInput({
         onChangeText(v);
       }}
       placeholder={placeholder}
-      style={[styles.container, localStyles]}
+      style={[styles.container, localStyles, style]}
       defaultValue={searchQuery}
       inputMode={inputMode}
       maxLength={maxLength}
       multiline={multiline}
+      placeholderTextColor={placeholderTextColor}
       numberOfLines={numberOfLines}
       onBlur={() => onEndEditing(searchQuery)}
       onFocus={() => console.log("focus")}

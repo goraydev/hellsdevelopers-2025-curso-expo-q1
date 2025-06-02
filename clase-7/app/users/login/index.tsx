@@ -39,7 +39,6 @@ export default function LoginScreen() {
       }
       storeData("user", JSON.stringify(userInfo));
       setState(userInfo);
-      router.push("/home");
     } catch (error) {
       console.error("Error en handleLogin:", error);
       Alert.alert("Error", "Ha ocurrido un error al intentar iniciar sesión");

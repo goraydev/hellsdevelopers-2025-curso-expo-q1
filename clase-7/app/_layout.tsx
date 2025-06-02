@@ -14,7 +14,7 @@ import { Bangers_400Regular, useFonts } from "@expo-google-fonts/bangers";
 import { initializeDB } from "@/db/initialize";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { getData } from "@/db/localStorage";
+import { getData, useWatchKey } from "@/db/localStorage";
 import parserData from "@/helpers/parserData";
 import { useStore } from "@/store/storte";
 
@@ -31,7 +31,7 @@ export default function RootLayout() {
   const router = useRouter();
   const colorScheme = useColorScheme();
   const setState = useStore((state) => state.setState);
-
+  const userValue = useWatchKey("user");
   const [initDB, setInitDB] = useState(false);
   const [loaded] = useFonts({
     SpaceMono: SpaceMono,
@@ -69,7 +69,7 @@ export default function RootLayout() {
           console.error(error);
         });
     }
-  }, [initDB]);
+  }, [initDB, userValue]);
 
   if (!loaded || !initDB) {
     return null;
@@ -80,11 +80,13 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="index" />
-          <Stack.Screen name="users/index" />
-          <Stack.Screen name="login/index" />
-          <Stack.Screen name="signup/index" />
+          <Stack.Screen name="users" />
+          <Stack.Screen name="users/login" />
+          <Stack.Screen name="users/signup" />
           <Stack.Screen name="home/index" />
           <Stack.Screen name="backoffice/index" />
+          <Stack.Screen name="backoffice/products" />
+          <Stack.Screen name="backoffice/products/create" />
           <Stack.Screen name="products/index" />
           <Stack.Screen name="+not-found" />
         </Stack>

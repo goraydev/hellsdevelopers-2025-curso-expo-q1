@@ -5,13 +5,13 @@ import { styles } from "./styles";
 type Props = TextProps & {
   children: React.ReactNode;
   h1?: unknown;
-  h2?: unknown;
   headerTitle?: unknown;
   bold?: unknown;
   info?: unknown;
   red?: unknown;
   center?: unknown;
   color?: string;
+  variant?: "label";
 };
 
 export function Text({ children, ...props }: Props) {
@@ -21,7 +21,6 @@ export function Text({ children, ...props }: Props) {
     localStyles.fontSize = 20;
     localStyles.fontWeight = "bold";
     localStyles.color = "#fff";
-    localStyles.marginTop = 10;
   }
 
   if (props.color) {
@@ -60,6 +59,15 @@ export function Text({ children, ...props }: Props) {
     localStyles.borderColor = "#333";
     localStyles.fontFamily = "SpaceMono";
     localStyles.color = "#fbc02d";
+  }
+
+  if (props.variant === "label") {
+    localStyles.fontSize = 16;
+    localStyles.fontWeight = "bold";
+    localStyles.marginTop = 5;
+    localStyles.textAlign = "left";
+    localStyles.color = "#efefef";
+    // localStyles.fontFamily = 'Bangers_400Regular'
   }
   return (
     <RNText {...props} style={[styles.container, localStyles]}>

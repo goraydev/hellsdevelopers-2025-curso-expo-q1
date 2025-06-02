@@ -1,10 +1,12 @@
 import { SQLiteManager } from "expo-sqlite-reactive";
 
 export type Product = {
-  product_id: number;
-  product_name: string;
-  product_description: string;
-  product_base_price: number;
+  productUUID: number;
+  productName: string;
+  productDescription: string;
+  brandUUID: string;
+  modelUUID: string;
+  productPrice: number;
 };
 
 export const tableName = "products";
@@ -12,11 +14,14 @@ export const tableName = "products";
 export async function createTable() {
   try {
     await SQLiteManager.createTable(tableName, {
-      product_id: "integer primary key autoincrement",
-      product_name: "text not null",
-      product_description: "text",
-      product_base_price: "integer",
+      productUUID: "integer primary key autoincrement",
+      productName: "text not null",
+      productDescription: "text",
+      brandUUID: "text",
+      modelUUID: "text",
+      productPrice: "integer",
     });
+    console.log("Tabla products creada con éxito");
   } catch (error) {
     console.error("Error creating table:", error);
   }
@@ -30,8 +35,38 @@ export async function deleteAllItems() {
   }
 }
 
+export async function countItems(): Promise<number> {
+  try {
+    const rows = await SQLiteManager.select<Product>(
+      tableName,
+      ["*"],
+      {},
+      undefined
+    );
+
+    if (!rows) return 0;
+    return rows.length;
+  } catch (error) {
+    console.error("Error al contar los productos", error);
+    return 0;
+  }
+}
+
+export async function updateItemProduct(
+  productUUID: number,
+  items: Partial<Product>
+) {
+  try {
+    await SQLiteManager.update(tableName, items, { productUUID: productUUID });
+    console.log("Elemento actualizado con éxito");
+  } catch (error) {
+    console.error("Error al actualizar el elemento", error);
+  }
+}
+
 export async function insertItemProduct(product: Product) {
   try {
+    await SQLiteManager.insert(tableName, product);
   } catch (error) {
     console.error("Error inserting item:", error);
   }

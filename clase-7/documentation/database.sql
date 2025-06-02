@@ -1,8 +1,10 @@
 CREATE TABLE "products" (
-	"product_id"	INTEGER NOT NULL UNIQUE,
-	"product_name"	TEXT NOT NULL,
-	"product_description"	TEXT,
-	"product_base_price"	INTEGER NOT NULL DEFAULT 0,
+	"productUUID"	INTEGER NOT NULL UNIQUE,
+	"productName"	TEXT NOT NULL,
+	"productDescription"	TEXT,
+	"brandUUID": TEXT,
+	"modelUUUID": TEXT,
+	"productPrice"	INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY("product_id" AUTOINCREMENT)
 );
 
