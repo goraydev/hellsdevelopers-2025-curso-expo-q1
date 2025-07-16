@@ -27,6 +27,11 @@ export async function createTable() {
   }
 }
 
+export async function dropTable() {
+  console.log('eliminando la tabla de productos desde ruta productos');
+  await SQLiteManager.dropTable(tableName);
+}
+
 export async function deleteAllItems() {
   try {
     await SQLiteManager.delete(tableName, {});

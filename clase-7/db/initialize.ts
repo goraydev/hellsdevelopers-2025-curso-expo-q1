@@ -6,7 +6,8 @@ import {
 } from "@/app/boot/_database";
 import { initiDB as initUserData } from "@/app/users/_layout";
 import { initLocalStorage } from "./localStorage";
-import { createTable as CreateTableProducts } from "@/app/products/_database";
+import { createTable as CreateTableProducts } from "@/app/backoffice/products/_database";
+
 
 export async function initializeDB() {
   SQLiteManager.initialize("stock42-ferrak.db");

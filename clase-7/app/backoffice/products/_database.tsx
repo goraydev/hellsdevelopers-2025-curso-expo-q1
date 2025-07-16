@@ -23,7 +23,7 @@ export async function createTable() {
     productDescription: "TEXT",
     brandUUID: "TEXT",
     modelUUID: "TEXT",
-    productPrice: "INTEGER",
+    productPrice: "REAL",
   });
 }
 
@@ -49,14 +49,18 @@ export async function deleteAllItems() {
 export async function insertItem(
   productData: Omit<TypeProductsTableSchema, "productUUID">
 ) {
-  const newUUID = uuid.v4() as string;
+  try {
+    const newUUID = uuid.v4() as string;
 
-  await SQLiteManager.insert(tableName, {
-    productUUID: newUUID,
-    ...productData,
-  } as TypeProductsTableSchema);
+    await SQLiteManager.insert(tableName, {
+      productUUID: newUUID,
+      ...productData,
+    } as TypeProductsTableSchema);
 
-  return newUUID;
+    return newUUID;
+  } catch (error) {
+    console.error("Error al insert el producto", error);
+  }
 }
 
 /**

@@ -39,15 +39,14 @@ export default function CreateProductScreen() {
     try {
       const newUUID = await insertItem(newProductData);
       Alert.alert("Éxito", `Producto creado con UUID: ${newUUID}`);
-      // Limpia los campos después de crear el producto
-      setProductName("");
-      setProductDescription("");
-      setBrandUUID("");
-      setModelUUID("");
-      setProductPrice("");
     } catch (error) {
       Alert.alert("Error al crear producto", String(error));
     }
+    setProductName("");
+    setProductDescription("");
+    setBrandUUID("");
+    setModelUUID("");
+    setProductPrice("");
   };
 
   return (
