@@ -6,6 +6,7 @@ import { Text } from "@/components/share/Text";
 import { Screen } from "@/components/share/Screen";
 import { TextInput } from "@/components/share/TextInput";
 import { insertItem } from "@/app/backoffice/products/_database";
+import { useRouter } from "expo-router";
 
 export default function CreateProductScreen() {
   const [productName, setProductName] = useState("");
@@ -13,6 +14,7 @@ export default function CreateProductScreen() {
   const [brandUUID, setBrandUUID] = useState("");
   const [modelUUID, setModelUUID] = useState("");
   const [productPrice, setProductPrice] = useState("");
+  const router = useRouter();
 
   const handleSaveProduct = async () => {
     console.info("handleSaveProduct");
@@ -39,14 +41,15 @@ export default function CreateProductScreen() {
     try {
       const newUUID = await insertItem(newProductData);
       Alert.alert("Éxito", `Producto creado con UUID: ${newUUID}`);
+      setProductName("");
+      setProductDescription("");
+      setBrandUUID("");
+      setModelUUID("");
+      setProductPrice("");
+      router.push("/backoffice/products");
     } catch (error) {
       Alert.alert("Error al crear producto", String(error));
     }
-    setProductName("");
-    setProductDescription("");
-    setBrandUUID("");
-    setModelUUID("");
-    setProductPrice("");
   };
 
   return (
