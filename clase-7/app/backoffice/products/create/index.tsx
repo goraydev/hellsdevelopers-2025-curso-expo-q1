@@ -46,7 +46,7 @@ export default function CreateProductScreen() {
       setBrandUUID("");
       setModelUUID("");
       setProductPrice("");
-      router.push("/backoffice/products");
+      router.back();
     } catch (error) {
       Alert.alert("Error al crear producto", String(error));
     }

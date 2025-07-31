@@ -21,8 +21,7 @@ export default function BackofficeProductsScreen() {
 
   useEffect(() => {
     getProducts();
-    
-  }, []);
+  }, [products]);
 
   return (
     <Screen title="Productos" scroll={false}>
@@ -32,7 +31,7 @@ export default function BackofficeProductsScreen() {
         renderItem={({ item }) => <BackOfficeProductItem product={item} />}
         refreshing={refreshing}
         onRefresh={() => {
-          setRefreshing(true);  
+          setRefreshing(true);
           getProducts();
           setRefreshing(false);
         }}
