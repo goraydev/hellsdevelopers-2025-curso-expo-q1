@@ -86,7 +86,7 @@ export default function RootLayout() {
           <Stack.Screen name="home/index" />
           <Stack.Screen name="backoffice/index" />
           <Stack.Screen name="backoffice/products" />
-          <Stack.Screen name="backoffice/products/create" />
+          <Stack.Screen name="backoffice/products/[id]/edit" />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="auto" />

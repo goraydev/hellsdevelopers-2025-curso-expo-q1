@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { FlatList } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { FlatList, View } from "react-native";
 
 import {
   searchItems,
@@ -10,6 +10,7 @@ import { Text } from "@/components/share/Text";
 
 import BackOfficeProductItem from "@/components/products/BackOfficeProductItem";
 import IconCreateNew from "@/components/share/IconCreateNew";
+import { useFocusEffect } from "expo-router";
 
 export default function BackofficeProductsScreen() {
   const [products, setProducts] = useState<TypeProductsTableSchema[]>([]);
@@ -19,20 +20,50 @@ export default function BackofficeProductsScreen() {
     setProducts(products);
   }
 
+  /* Primera forma realizada para poder 
+  mostrar los productos nuevos */
+
   useEffect(() => {
     getProducts();
   }, [products]);
+
+  /* Segunda forma, usando el useFocusEffect propio de expo */
+  /* useFocusEffect(
+    useCallback(() => {
+      getProducts();
+
+      console.log("traendo productos nuevos");
+
+      return () => {
+        console.log("This route is now unfocused.");
+      };
+    }, [])
+  ); */
 
   return (
     <Screen title="Productos" scroll={false}>
       <Text color="#fff">Lista de Productos</Text>
       <FlatList
         data={products}
-        renderItem={({ item }) => <BackOfficeProductItem product={item} />}
+        numColumns={2}
+        renderItem={({ item }) => (
+          <View
+            style={{
+              borderWidth: 1,
+              borderColor: "#fff",
+              borderRadius: 8,
+              flex: 1,
+              marginHorizontal: 8,
+              marginVertical: 8,
+            }}
+          >
+            <BackOfficeProductItem product={item} />
+          </View>
+        )}
         refreshing={refreshing}
-        onRefresh={() => {
+        onRefresh={async () => {
           setRefreshing(true);
-          getProducts();
+          await getProducts();
           setRefreshing(false);
         }}
         ListEmptyComponent={() => (

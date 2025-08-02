@@ -41,6 +41,25 @@ export async function deleteAllItems() {
   await SQLiteManager.delete(tableName);
 }
 
+export async function createEmptyItem(): Promise<string> {
+  const newUUID: string = uuid.v4() as string;
+  try {
+    await SQLiteManager.insert(tableName, {
+      productUUID: newUUID,
+      productName: "use focus effect",
+      productDescription: "",
+      brandUUID: "",
+      modelUUID: "",
+      productPrice: 0,
+    });
+
+    return newUUID;
+  } catch (error) {
+    console.error("Error al crear item vacio:", error);
+    return "Error al crear item vacío";
+  }
+}
+
 /**
  * Inserta un nuevo producto. Genera un `productUUID` automáticamente.
  * @param productData Datos del producto (sin incluir `productUUID`)

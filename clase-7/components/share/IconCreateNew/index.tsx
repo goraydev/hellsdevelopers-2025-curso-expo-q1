@@ -1,3 +1,4 @@
+import { createEmptyItem } from "@/app/backoffice/products/_database";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -6,8 +7,9 @@ import { StyleSheet, Text, View } from "react-native";
 export default function IconCreateNew() {
   const router = useRouter();
 
-  const handleCreate = () => {
-    router.push("/backoffice/products/create");
+  const handleCreate = async () => {
+    const productId: string = await createEmptyItem();
+    router.push(`/backoffice/products/${productId}/edit`);
   };
   return (
     <Ionicons
