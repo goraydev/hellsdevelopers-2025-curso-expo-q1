@@ -2,15 +2,17 @@ import { StyleSheet } from "react-native";
 
 export const stylesProductItem = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
+    display: "flex",
+    flexDirection: "column",
     alignItems: "center",
-    padding: 16,
+    padding: 10,
   },
-  styleIconDelete: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    padding: 2,
+
+  styleIcons: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    padding: 4,
   },
 });

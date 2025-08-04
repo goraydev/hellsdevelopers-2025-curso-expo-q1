@@ -8,14 +8,15 @@ import {
   TypeProductsTableSchema,
 } from "@/app/backoffice/products/_database";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useFocusEffect } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 
 type Props = {
   product: TypeProductsTableSchema;
 };
 
 export default function BackOfficeProductItem({ product }: Props) {
-  const handleProductPress = () => {
+  const router = useRouter();
+  const handleDeletePress = () => {
     //Eliminar el producto
     Alert.alert("¿Seguro de eliminar producto?", "No se podrá revertir", [
       {
@@ -32,17 +33,30 @@ export default function BackOfficeProductItem({ product }: Props) {
     ]);
   };
 
+  const handleEditPress = () => {
+    router.push(`/backoffice/products/${product.productUUID}/edit`);
+  };
+
   return (
-    <View style={[stylesProductItem.container, { position: "relative" }]}>
-      <Ionicons
-        style={stylesProductItem.styleIconDelete}
-        name="trash"
-        size={20}
-        color="red"
-        onPress={handleProductPress}
-      />
-      <Text color="#fff">{product.productName}</Text>
-      <Text color="#fff">s/. {product.productPrice}</Text>
+    <View>
+      <View style={stylesProductItem.styleIcons}>
+        <Ionicons
+          name="create-outline"
+          size={20}
+          color="yellow"
+          onPress={handleEditPress}
+        />
+        <Ionicons
+          name="trash"
+          size={20}
+          color="red"
+          onPress={handleDeletePress}
+        />
+      </View>
+      <View style={stylesProductItem.container}>
+        <Text color="#fff">{product.productName}</Text>
+        <Text color="#fff">s/. {product.productPrice}</Text>
+      </View>
     </View>
   );
 }

@@ -8,12 +8,13 @@ export default function IconCreateNew() {
   const router = useRouter();
 
   const handleCreate = async () => {
-    const productId: string = await createEmptyItem();
-    router.push(`/backoffice/products/${productId}/edit`);
+    //const productId: string = await createEmptyItem();
+    router.push("/backoffice/products/create");
+    //router.push(`/backoffice/products/${productId}/edit`);
   };
   return (
     <Ionicons
-      name="create-outline"
+      name="add-circle-outline"
       size={30}
       color="black"
       style={styles.iconcreate}
