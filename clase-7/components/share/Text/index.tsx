@@ -57,7 +57,7 @@ export function Text({ children, ...props }: Props) {
     localStyles.paddingVertical = 4;
     localStyles.borderWidth = 1;
     localStyles.borderColor = "#333";
-    localStyles.fontFamily = "SpaceMono";
+    localStyles.fontFamily = "PoppinsRegular";
     localStyles.color = "#fbc02d";
   }
 
@@ -67,7 +67,7 @@ export function Text({ children, ...props }: Props) {
     localStyles.marginTop = 5;
     localStyles.textAlign = "left";
     localStyles.color = "#efefef";
-    // localStyles.fontFamily = 'Bangers_400Regular'
+    localStyles.fontFamily = 'PoppinsRegular';
   }
   return (
     <RNText {...props} style={[styles.container, localStyles]}>

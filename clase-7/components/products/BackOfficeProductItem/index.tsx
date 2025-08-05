@@ -42,13 +42,13 @@ export default function BackOfficeProductItem({ product }: Props) {
       <View style={stylesProductItem.styleIcons}>
         <Ionicons
           name="create-outline"
-          size={20}
+          size={25}
           color="yellow"
           onPress={handleEditPress}
         />
         <Ionicons
           name="trash"
-          size={20}
+          size={25}
           color="red"
           onPress={handleDeletePress}
         />

@@ -18,7 +18,7 @@ export default function CreateProductScreen() {
 
   const handleSaveProduct = async () => {
     console.info("handleSaveProduct");
-    // Validaciones simples (puedes personalizarlas)
+    
     if (!productName.trim()) {
       Alert.alert("Error", "El nombre del producto es obligatorio");
       return;

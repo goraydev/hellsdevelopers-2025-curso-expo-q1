@@ -17,6 +17,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { getData, useWatchKey } from "@/db/localStorage";
 import parserData from "@/helpers/parserData";
 import { useStore } from "@/store/storte";
+import PoppinsRegular from "@/assets/fonts/Poppins-Regular.ttf";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -36,6 +37,7 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: SpaceMono,
     Bangers_400Regular,
+    PoppinsRegular,
   });
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { TextInput as RNTextInput, TextStyle, ViewStyle } from "react-native";
 
@@ -23,6 +23,7 @@ type Props = {
   onChangeText?: (v: string) => void;
   style?: ViewStyle & TextStyle;
   placeholderTextColor?: string;
+  defaultValue?: any;
 };
 
 export function TextInput({
@@ -36,8 +37,9 @@ export function TextInput({
   onChangeText = (v) => {},
   style,
   placeholderTextColor = "#999",
+  defaultValue,
 }: Props) {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(defaultValue);
 
   const localStyles = {};
 
@@ -50,6 +52,11 @@ export function TextInput({
     localStyles.position = "absolute";
     localStyles.top = 0;
   }
+
+  useEffect(() => {
+    setSearchQuery(defaultValue);
+  }, [defaultValue]);
+
   return (
     <RNTextInput
       onChangeText={(v) => {

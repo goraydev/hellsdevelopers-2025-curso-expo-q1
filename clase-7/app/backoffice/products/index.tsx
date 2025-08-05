@@ -17,6 +17,7 @@ export default function BackofficeProductsScreen() {
   const [refreshing, setRefreshing] = useState(false);
   async function getProducts() {
     const products = await searchItems();
+
     setProducts(products);
   }
 
