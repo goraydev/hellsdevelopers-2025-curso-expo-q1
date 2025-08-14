@@ -6,14 +6,18 @@ import { getEntityByUUID, updateEntity } from "../../_database";
 import { TextInput } from "@/components/share/TextInput";
 import { styles } from "./style";
 import { Alert } from "react-native";
+import { CameraShare } from "@/components/share/CameraShare";
+import { useStore } from "@/store/storte";
 
 export default function ProductItem() {
+  const { base64Data, setBase64Data } = useStore();
   const router = useRouter();
   const { id: idProduct } = useLocalSearchParams();
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [brandUUID, setBrandUUID] = useState("");
   const [modelUUID, setModelUUID] = useState("");
+  const [productImage, setProductImage] = useState("");
   const [productPrice, setProductPrice] = useState("");
 
   const getProductData = async () => {
@@ -22,9 +26,11 @@ export default function ProductItem() {
       if (!productData) {
         return;
       }
+
       setProductName(productData.productName);
       setProductDescription(productData.productDescription);
       setBrandUUID(productData.brandUUID);
+      setProductImage(productData.productImage || "");
       setModelUUID(productData.modelUUID);
       setProductPrice(String(productData.productPrice));
     } catch (error) {
@@ -48,11 +54,13 @@ export default function ProductItem() {
         productDescription,
         brandUUID,
         modelUUID,
+        productImage: base64Data || productImage,
         productPrice: parseFloat(productPrice),
       });
 
       Alert.alert("Éxito", "El producto fue actualizado exitosamente");
       router.back();
+      setBase64Data("");
     } catch (error) {
       console.error("Error al actualizar el producto", error);
     }
@@ -61,6 +69,10 @@ export default function ProductItem() {
   useEffect(() => {
     getProductData();
   }, [idProduct]);
+
+  useEffect(() => {
+    setBase64Data("");
+  }, []);
 
   return (
     <Screen
@@ -103,6 +115,7 @@ export default function ProductItem() {
         placeholder="Precio del Producto"
         defaultValue={productPrice}
       />
+      <CameraShare currentBase64={productImage} />
     </Screen>
   );
 }

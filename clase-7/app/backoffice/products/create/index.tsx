@@ -1,14 +1,20 @@
 // CreateProductScreen.tsx
 
-import React, { useState } from "react";
-import { Alert, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Alert, Image, StyleSheet, View } from "react-native";
 import { Text } from "@/components/share/Text";
 import { Screen } from "@/components/share/Screen";
 import { TextInput } from "@/components/share/TextInput";
 import { insertItem } from "@/app/backoffice/products/_database";
 import { useRouter } from "expo-router";
+import { Camera } from "@/components/camera";
+import { Link } from "@/components/share/Link";
+import { useStore } from "@/store/storte";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { CameraShare } from "@/components/share/CameraShare";
 
 export default function CreateProductScreen() {
+  const { base64Data, setBase64Data } = useStore();
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [brandUUID, setBrandUUID] = useState("");
@@ -18,7 +24,7 @@ export default function CreateProductScreen() {
 
   const handleSaveProduct = async () => {
     console.info("handleSaveProduct");
-    
+
     if (!productName.trim()) {
       Alert.alert("Error", "El nombre del producto es obligatorio");
       return;
@@ -34,6 +40,7 @@ export default function CreateProductScreen() {
       productName: productName.trim(),
       productDescription: productDescription.trim(),
       brandUUID: brandUUID.trim(),
+      productImage: base64Data,
       modelUUID: modelUUID.trim(),
       productPrice: Number(productPrice.trim()), // conviértelo a número
     };
@@ -44,6 +51,7 @@ export default function CreateProductScreen() {
       setProductName("");
       setProductDescription("");
       setBrandUUID("");
+      setBase64Data("");
       setModelUUID("");
       setProductPrice("");
       router.back();
@@ -57,6 +65,7 @@ export default function CreateProductScreen() {
       title="Crear producto"
       footerAction={() => handleSaveProduct()}
       footerText="Guardar producto"
+      scroll
     >
       <Text variant="label">Nombre:</Text>
       <TextInput
@@ -83,6 +92,8 @@ export default function CreateProductScreen() {
         inputMode="numeric"
         placeholder="Precio (numérico)"
       />
+
+      <CameraShare />
     </Screen>
   );
 }

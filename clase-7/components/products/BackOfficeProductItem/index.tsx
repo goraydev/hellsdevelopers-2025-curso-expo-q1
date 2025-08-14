@@ -1,6 +1,6 @@
 import { Text } from "@/components/share/Text";
 import React, { useCallback } from "react";
-import { Alert, Button, View } from "react-native";
+import { Alert, Button, Image, View } from "react-native";
 import { stylesProductItem } from "./style";
 import {
   deleteEntity,
@@ -9,6 +9,7 @@ import {
 } from "@/app/backoffice/products/_database";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useFocusEffect, useRouter } from "expo-router";
+import { MainImage } from "@/components/MainImage";
 
 type Props = {
   product: TypeProductsTableSchema;
@@ -54,6 +55,15 @@ export default function BackOfficeProductItem({ product }: Props) {
         />
       </View>
       <View style={stylesProductItem.container}>
+        <Image
+          source={{ uri: `data:image/jpeg;base64,${product.productImage}` }}
+          style={{
+            width: 200,
+            height: 200,
+            borderRadius: 10,
+            objectFit: "contain",
+          }}
+        />
         <Text color="#fff">{product.productName}</Text>
         <Text color="#fff">s/. {product.productPrice}</Text>
       </View>
