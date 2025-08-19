@@ -14,7 +14,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { CameraShare } from "@/components/share/CameraShare";
 
 export default function CreateProductScreen() {
-  const { base64Data, setBase64Data } = useStore();
+  const { base64Data, setBase64Data, galleryBase64Data, setGalleryBase64Data } =
+    useStore();
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [brandUUID, setBrandUUID] = useState("");
@@ -41,6 +42,7 @@ export default function CreateProductScreen() {
       productDescription: productDescription.trim(),
       brandUUID: brandUUID.trim(),
       productImage: base64Data,
+      productImages: galleryBase64Data,
       modelUUID: modelUUID.trim(),
       productPrice: Number(productPrice.trim()), // conviértelo a número
     };
@@ -52,6 +54,7 @@ export default function CreateProductScreen() {
       setProductDescription("");
       setBrandUUID("");
       setBase64Data("");
+      setGalleryBase64Data([]);
       setModelUUID("");
       setProductPrice("");
       router.back();
@@ -65,7 +68,6 @@ export default function CreateProductScreen() {
       title="Crear producto"
       footerAction={() => handleSaveProduct()}
       footerText="Guardar producto"
-      scroll
     >
       <Text variant="label">Nombre:</Text>
       <TextInput
@@ -94,6 +96,25 @@ export default function CreateProductScreen() {
       />
 
       <CameraShare />
+      <View
+        style={{
+          marginBottom: 100,
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 4,
+        }}
+      >
+        <Ionicons name="camera" size={30} color="white" />
+        <Link href="/gallery">
+          {galleryBase64Data.length > 0 ? (
+            <Text variant="label">Ver galeria de imágenes</Text>
+          ) : (
+            <Text variant="label">Subir galeria de imágenes</Text>
+          )}
+        </Link>
+      </View>
     </Screen>
   );
 }

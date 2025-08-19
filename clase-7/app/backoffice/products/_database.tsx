@@ -7,6 +7,7 @@ export type TypeProductsTableSchema = {
   productName: string;
   productDescription: string;
   productImage?: string;
+  productImages?: string[];
   brandUUID: string;
   modelUUID: string;
   productPrice: number;
@@ -23,6 +24,7 @@ export async function createTable() {
     productName: "TEXT",
     productDescription: "TEXT",
     productImage: "TEXT",
+    productImages: "TEXT",
     brandUUID: "TEXT",
     modelUUID: "TEXT",
     productPrice: "REAL",

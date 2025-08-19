@@ -27,7 +27,7 @@ export default function BackOfficeProductItem({ product }: Props) {
       {
         text: "Ok",
         onPress: async () => {
-          console.info("Eliminando producto", product);
+          
           await deleteEntity(product.productUUID);
         },
       },

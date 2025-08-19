@@ -3,6 +3,7 @@ import { Screen } from "@/components/share/Screen";
 import { Text } from "@/components/share/Text";
 import { useStore } from "@/store/storte";
 import React from "react";
+import { View } from "react-native";
 
 export default function BackOffice() {
   const user = useStore((state) => state.user);

@@ -13,8 +13,8 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { useStore } from "@/store/storte";
 import { useRouter } from "expo-router";
 
-export function Camera() {
-  const { setBase64Data } = useStore();
+export function CameraGallery() {
+  const { setGalleryBase64Data, galleryBase64Data } = useStore();
   const [permission, requestPermission] = useCameraPermissions();
   const ref = useRef<CameraView>(null);
   const [uri, setUri] = useState<string | null | undefined>(null);
@@ -53,8 +53,8 @@ export function Camera() {
   };
 
   const savePhoto = () => {
+    setGalleryBase64Data([...galleryBase64Data, photoBase64]);
     
-    setBase64Data(photoBase64);
     router.back();
   };
 
@@ -87,7 +87,7 @@ export function Camera() {
         />
         <View style={styles.viewButtons}>
           <Button onPress={() => setUri(null)} title="Tomar otra foto" />
-          <Button onPress={() => savePhoto()} title="Guardar" />
+          <Button onPress={() => savePhoto()} title="Guardar imagen" />
         </View>
       </View>
     );
