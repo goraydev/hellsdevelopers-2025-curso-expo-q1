@@ -30,15 +30,15 @@ export default function ProductsDetail() {
       if (!productData) {
         return;
       }
-      const raw = parseImages(productData.productImages);
+      /* const raw = parseImages(productData.productImages);
       const bases = raw.map((item) => item.slice(0, 10));
-      console.log(bases)
+      console.log(bases) */
 
       setProductName(productData.productName);
       setProductDescription(productData.productDescription);
       setProductImage(productData.productImage || "");
       setBrandUUID(productData.brandUUID);
-      setProductImages(raw);
+      //setProductImages(raw);
       setModelUUID(productData.modelUUID);
       setProductPrice(String(productData.productPrice));
     } catch (error) {
