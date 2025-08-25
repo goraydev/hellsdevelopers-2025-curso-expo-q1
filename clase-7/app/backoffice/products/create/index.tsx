@@ -42,7 +42,7 @@ export default function CreateProductScreen() {
       productDescription: productDescription.trim(),
       brandUUID: brandUUID.trim(),
       productImage: base64Data,
-      productImages: galleryBase64Data,
+      productImages: JSON.stringify(galleryBase64Data),
       modelUUID: modelUUID.trim(),
       productPrice: Number(productPrice.trim()), // conviértelo a número
     };

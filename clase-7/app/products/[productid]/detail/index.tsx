@@ -1,10 +1,120 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Screen } from "@/components/share/Screen";
+import { Text } from "@/components/share/Text";
+import { useLocalSearchParams } from "expo-router";
+import { getEntityByUUID } from "@/app/backoffice/products/_database";
+import { FlatList, Image, StyleSheet, View } from "react-native";
+
+function parseImages(images?: string): string[] {
+  if (!images) return [];
+  try {
+    const parsed = JSON.parse(images);
+    return Array.isArray(parsed) ? parsed : [parsed];
+  } catch {
+    return [];
+  }
+}
 
 export default function ProductsDetail() {
+  const { productid } = useLocalSearchParams();
+  const [productName, setProductName] = useState("");
+  const [productDescription, setProductDescription] = useState("");
+  const [brandUUID, setBrandUUID] = useState("");
+  const [modelUUID, setModelUUID] = useState("");
+  const [productImage, setProductImage] = useState("");
+  const [productImages, setProductImages] = useState<string[]>([]);
+  const [productPrice, setProductPrice] = useState("");
+  const getProductData = async () => {
+    try {
+      const productData = await getEntityByUUID(productid as string);
+      if (!productData) {
+        return;
+      }
+      const raw = parseImages(productData.productImages);
+      const bases = raw.map((item) => item.slice(0, 10));
+      console.log(bases)
+
+      setProductName(productData.productName);
+      setProductDescription(productData.productDescription);
+      setProductImage(productData.productImage || "");
+      setBrandUUID(productData.brandUUID);
+      setProductImages(raw);
+      setModelUUID(productData.modelUUID);
+      setProductPrice(String(productData.productPrice));
+    } catch (error) {
+      console.error("Error fetching product data:", error);
+    }
+  };
+
+  useEffect(() => {
+    getProductData();
+  }, [productid]);
+
   return (
-    <View>
-      <Text>ProductsDetail</Text>
-    </View>
+    <Screen title={`${productName}`} scroll={false}>
+      <Text color="white" h1 bold center>
+        {productName}
+      </Text>
+      <Image
+        source={{ uri: `data:image/jpeg;base64,${productImage}` }}
+        style={{
+          width: 200,
+          height: 200,
+          borderRadius: 10,
+          marginHorizontal: "auto",
+        }}
+      />
+      <View style={styles.container}>
+        <Text bold>Descripción:</Text>
+        <Text>{productDescription}</Text>
+      </View>
+      <View style={styles.container}>
+        <Text bold>Precio:</Text>
+        <Text>{productPrice}</Text>
+      </View>
+
+      <View>
+        <Text bold color="white">
+          Galeria de imágenes:
+        </Text>
+        <Text>{productPrice}</Text>
+      </View>
+      <FlatList
+        data={productImages}
+        numColumns={2}
+        renderItem={({ item }) => (
+          <View
+            style={{
+              borderWidth: 1,
+              borderColor: "#fff",
+              borderRadius: 8,
+              flex: 1,
+              marginHorizontal: 8,
+              marginVertical: 8,
+            }}
+          >
+            <Image
+              source={{ uri: `data:image/jpeg;base64,${item}` }}
+              style={{
+                width: 200,
+                height: 200,
+                borderRadius: 10,
+                objectFit: "contain",
+              }}
+            />
+          </View>
+        )}
+      />
+    </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 16,
+    paddingVertical: 24,
+    backgroundColor: "#fff",
+    marginVertical: 8,
+    borderRadius: 8,
+  },
+});

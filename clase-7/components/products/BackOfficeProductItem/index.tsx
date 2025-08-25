@@ -27,7 +27,6 @@ export default function BackOfficeProductItem({ product }: Props) {
       {
         text: "Ok",
         onPress: async () => {
-          
           await deleteEntity(product.productUUID);
         },
       },
@@ -38,9 +37,19 @@ export default function BackOfficeProductItem({ product }: Props) {
     router.push(`/backoffice/products/${product.productUUID}/edit`);
   };
 
+  const handleViewPress = () => {
+    router.push(`/products/${product.productUUID}/detail`);
+  };
+
   return (
     <View>
       <View style={stylesProductItem.styleIcons}>
+        <Ionicons
+          name="eye-outline"
+          size={25}
+          color="white"
+          onPress={handleViewPress}
+        />
         <Ionicons
           name="create-outline"
           size={25}

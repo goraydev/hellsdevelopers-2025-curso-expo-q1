@@ -54,6 +54,7 @@ export function CameraGallery() {
 
   const savePhoto = () => {
     setGalleryBase64Data([...galleryBase64Data, photoBase64]);
+
     
     router.back();
   };

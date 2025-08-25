@@ -13,6 +13,7 @@ export const stylesProductItem = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "flex-end",
+    gap: 4,
     padding: 4,
   },
 });

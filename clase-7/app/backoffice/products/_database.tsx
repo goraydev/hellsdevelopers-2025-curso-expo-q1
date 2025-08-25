@@ -7,7 +7,7 @@ export type TypeProductsTableSchema = {
   productName: string;
   productDescription: string;
   productImage?: string;
-  productImages?: string[];
+  productImages?: string[] | string;
   brandUUID: string;
   modelUUID: string;
   productPrice: number;
@@ -78,6 +78,7 @@ export async function insertItem(
     await SQLiteManager.insert(tableName, {
       productUUID: newUUID,
       ...productData,
+      productImages: JSON.stringify(productData.productImages ?? []),
     } as TypeProductsTableSchema);
 
     return newUUID;
@@ -196,6 +197,7 @@ export async function getEntityByUUID(productUUID: string) {
         productUUID,
       }
     );
+
     return result?.[0] || null;
   } catch (error) {
     console.error("Error al obtener producto por UUID:", error);
