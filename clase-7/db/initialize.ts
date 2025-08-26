@@ -6,8 +6,10 @@ import {
 } from "@/app/boot/_database";
 import { initiDB as initUserData } from "@/app/users/_layout";
 import { initLocalStorage } from "./localStorage";
-import { createTable as CreateTableProducts } from "@/app/backoffice/products/_database";
-
+import {
+  createTableImages,
+  createTable as CreateTableProducts,
+} from "@/app/backoffice/products/_database";
 
 export async function initializeDB() {
   SQLiteManager.initialize("stock42-ferrak.db");
@@ -19,4 +21,6 @@ export async function initializeDB() {
   await initLocalStorage();
   await CreateTableProducts();
   await insertBootItem("Tabla de productos creada");
+  await createTableImages();
+  await insertBootItem("Tabla de imágenes creada");
 }

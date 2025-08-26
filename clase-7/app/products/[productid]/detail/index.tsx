@@ -5,16 +5,6 @@ import { useLocalSearchParams } from "expo-router";
 import { getEntityByUUID } from "@/app/backoffice/products/_database";
 import { FlatList, Image, StyleSheet, View } from "react-native";
 
-function parseImages(images?: string): string[] {
-  if (!images) return [];
-  try {
-    const parsed = JSON.parse(images);
-    return Array.isArray(parsed) ? parsed : [parsed];
-  } catch {
-    return [];
-  }
-}
-
 export default function ProductsDetail() {
   const { productid } = useLocalSearchParams();
   const [productName, setProductName] = useState("");
@@ -30,15 +20,15 @@ export default function ProductsDetail() {
       if (!productData) {
         return;
       }
-      /* const raw = parseImages(productData.productImages);
-      const bases = raw.map((item) => item.slice(0, 10));
-      console.log(bases) */
+      const rawImages = productData.productImages.map(
+        (item) => item.productImage
+      );
 
       setProductName(productData.productName);
       setProductDescription(productData.productDescription);
       setProductImage(productData.productImage || "");
       setBrandUUID(productData.brandUUID);
-      //setProductImages(raw);
+      setProductImages(rawImages);
       setModelUUID(productData.modelUUID);
       setProductPrice(String(productData.productPrice));
     } catch (error) {
@@ -51,7 +41,7 @@ export default function ProductsDetail() {
   }, [productid]);
 
   return (
-    <Screen title={`${productName}`} scroll={false}>
+    <Screen title="Producto" scroll={false}>
       <Text color="white" h1 bold center>
         {productName}
       </Text>
@@ -77,7 +67,6 @@ export default function ProductsDetail() {
         <Text bold color="white">
           Galeria de imágenes:
         </Text>
-        <Text>{productPrice}</Text>
       </View>
       <FlatList
         data={productImages}
@@ -96,10 +85,10 @@ export default function ProductsDetail() {
             <Image
               source={{ uri: `data:image/jpeg;base64,${item}` }}
               style={{
-                width: 200,
+                width: 172,
                 height: 200,
                 borderRadius: 10,
-                objectFit: "contain",
+                objectFit: "fill",
               }}
             />
           </View>

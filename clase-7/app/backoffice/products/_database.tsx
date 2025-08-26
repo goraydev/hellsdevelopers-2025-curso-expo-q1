@@ -1,19 +1,34 @@
 import { SQLiteManager } from "expo-sqlite-reactive";
 import uuid from "react-native-uuid";
 
-// Tipado para la tabla "products"
+// Lo que se guarda en la DB
 export type TypeProductsTableSchema = {
   productUUID: string;
   productName: string;
   productDescription: string;
   productImage?: string;
-  productImages?: string[] | string;
+
   brandUUID: string;
   modelUUID: string;
   productPrice: number;
 };
 
+export type TypeImageProductsTableScheme = {
+  producdUUIDImage: string;
+  productImage: string;
+  productUUID: string;
+};
+
+// Lo que manejas en la app
+export type TypeProductsAppSchema = Omit<
+  TypeProductsTableSchema,
+  "productUUID" | "productImages"
+> & {
+  productImages?: string[]; // array en la app
+};
+
 export const tableName = "products";
+export const tableImagesName = "images";
 
 /**
  * Crea la tabla "products" con las columnas especificadas.
@@ -31,6 +46,14 @@ export async function createTable() {
   });
 }
 
+export async function createTableImages() {
+  await SQLiteManager.createTable(tableImagesName, {
+    producdUUIDImage: "TEXT NOT NULL",
+    productImage: "TEXT",
+    productUUID: "TEXT",
+  });
+}
+
 /**
  * Elimina (DROP) la tabla "products".
  */
@@ -38,11 +61,19 @@ export async function dropTable() {
   await SQLiteManager.dropTable(tableName);
 }
 
+export async function dropTableImages() {
+  await SQLiteManager.dropTable(tableImagesName);
+}
+
 /**
  * Borra todos los registros de la tabla "products".
  */
 export async function deleteAllItems() {
   await SQLiteManager.delete(tableName);
+}
+
+export async function deleteAllImages() {
+  await SQLiteManager.delete(tableImagesName);
 }
 
 export async function createEmptyItem(): Promise<string> {
@@ -69,19 +100,41 @@ export async function createEmptyItem(): Promise<string> {
  * @param productData Datos del producto (sin incluir `productUUID`)
  * @returns El `productUUID` generado
  */
-export async function insertItem(
-  productData: Omit<TypeProductsTableSchema, "productUUID">
-) {
+export async function insertItem(productData: TypeProductsAppSchema) {
   try {
     const newUUID = uuid.v4() as string;
 
     await SQLiteManager.insert(tableName, {
       productUUID: newUUID,
       ...productData,
-      productImages: JSON.stringify(productData.productImages ?? []),
     } as TypeProductsTableSchema);
 
+    if (productData.productImages && productData.productImages.length > 0) {
+      await Promise.all(
+        productData.productImages.map(async (image) => {
+          const newUUIDImage = uuid.v4() as string;
+
+          const dataImage: TypeImageProductsTableScheme = {
+            producdUUIDImage: newUUIDImage,
+            productImage: image,
+            productUUID: newUUID,
+          };
+
+          await insertImageItem(dataImage);
+          return newUUIDImage;
+        })
+      );
+    }
+
     return newUUID;
+  } catch (error) {
+    console.error("Error al insert el producto", error);
+  }
+}
+
+export async function insertImageItem(imageData: TypeImageProductsTableScheme) {
+  try {
+    await SQLiteManager.insert(tableImagesName, imageData);
   } catch (error) {
     console.error("Error al insert el producto", error);
   }
@@ -184,6 +237,16 @@ export async function deleteEntity(productUUID: string) {
   }
 }
 
+function parseImages(images?: string): string[] {
+  if (!images) return [];
+  try {
+    const parsed = JSON.parse(images);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
 /**
  * Obtiene un producto de la tabla usando el `productUUID`.
  * @param productUUID UUID del producto
@@ -198,7 +261,20 @@ export async function getEntityByUUID(productUUID: string) {
       }
     );
 
-    return result?.[0] || null;
+    const product = result?.[0];
+    if (!product) return null;
+    const images = await SQLiteManager.select<TypeImageProductsTableScheme>(
+      tableImagesName,
+      ["*"],
+      { productUUID }
+    );
+
+    if (!images?.length) return null;
+
+    return {
+      ...product,
+      productImages: images,
+    };
   } catch (error) {
     console.error("Error al obtener producto por UUID:", error);
     return null;

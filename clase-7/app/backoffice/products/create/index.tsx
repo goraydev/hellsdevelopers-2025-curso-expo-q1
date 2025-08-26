@@ -5,7 +5,10 @@ import { Alert, Image, StyleSheet, View } from "react-native";
 import { Text } from "@/components/share/Text";
 import { Screen } from "@/components/share/Screen";
 import { TextInput } from "@/components/share/TextInput";
-import { insertItem } from "@/app/backoffice/products/_database";
+import {
+  insertItem,
+  TypeProductsAppSchema,
+} from "@/app/backoffice/products/_database";
 import { useRouter } from "expo-router";
 import { Camera } from "@/components/camera";
 import { Link } from "@/components/share/Link";
@@ -37,17 +40,18 @@ export default function CreateProductScreen() {
     }
 
     // Prepara el objeto con los datos que no incluyan 'productUUID'
-    const newProductData = {
+    const newProductData: TypeProductsAppSchema = {
       productName: productName.trim(),
       productDescription: productDescription.trim(),
       brandUUID: brandUUID.trim(),
       productImage: base64Data,
-      productImages: JSON.stringify(galleryBase64Data),
+      productImages: galleryBase64Data,
       modelUUID: modelUUID.trim(),
       productPrice: Number(productPrice.trim()), // conviértelo a número
     };
 
     try {
+      
       const newUUID = await insertItem(newProductData);
       Alert.alert("Éxito", `Producto creado con UUID: ${newUUID}`);
       setProductName("");
