@@ -2,13 +2,15 @@ import { Link } from "@/components/share/Link";
 import { Screen } from "@/components/share/Screen";
 import { Text } from "@/components/share/Text";
 import { useStore } from "@/store/storte";
+import { useLocalSearchParams } from "expo-router";
 import { FlatList, Image, StyleSheet, View } from "react-native";
 
 export default function Gallery() {
   const { galleryBase64Data } = useStore();
+  const { producid } = useLocalSearchParams();
 
   return (
-    <Screen title="Galería de imágenes" scroll={false}>
+    <Screen title="Galería de imágenes edit" scroll={false}>
       <View style={styles.gallery}>
         {
           <FlatList

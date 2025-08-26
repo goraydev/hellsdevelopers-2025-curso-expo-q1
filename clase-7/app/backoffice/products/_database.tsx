@@ -1,3 +1,4 @@
+import { typeImageProduct } from "@/store/storte";
 import { SQLiteManager } from "expo-sqlite-reactive";
 import uuid from "react-native-uuid";
 
@@ -7,7 +8,6 @@ export type TypeProductsTableSchema = {
   productName: string;
   productDescription: string;
   productImage?: string;
-
   brandUUID: string;
   modelUUID: string;
   productPrice: number;
@@ -24,7 +24,7 @@ export type TypeProductsAppSchema = Omit<
   TypeProductsTableSchema,
   "productUUID" | "productImages"
 > & {
-  productImages?: string[]; // array en la app
+  productImages?: typeImageProduct[]; // array en la app
 };
 
 export const tableName = "products";
@@ -116,7 +116,7 @@ export async function insertItem(productData: TypeProductsAppSchema) {
 
           const dataImage: TypeImageProductsTableScheme = {
             producdUUIDImage: newUUIDImage,
-            productImage: image,
+            productImage: image.productImage,
             productUUID: newUUID,
           };
 

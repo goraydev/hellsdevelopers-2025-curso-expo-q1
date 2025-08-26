@@ -2,12 +2,18 @@ import { Screen } from "@/components/share/Screen";
 import { Text } from "@/components/share/Text";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { getEntityByUUID, updateEntity } from "../../_database";
+import {
+  getEntityByUUID,
+  TypeImageProductsTableScheme,
+  updateEntity,
+} from "../../_database";
 import { TextInput } from "@/components/share/TextInput";
 import { styles } from "./style";
-import { Alert } from "react-native";
+import { Alert, Button, FlatList, Image, View } from "react-native";
 import { CameraShare } from "@/components/share/CameraShare";
 import { useStore } from "@/store/storte";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Link } from "@/components/share/Link";
 
 export default function ProductItem() {
   const { base64Data, setBase64Data } = useStore();
@@ -18,6 +24,9 @@ export default function ProductItem() {
   const [brandUUID, setBrandUUID] = useState("");
   const [modelUUID, setModelUUID] = useState("");
   const [productImage, setProductImage] = useState("");
+  const [productImages, setProductImages] = useState<
+    TypeImageProductsTableScheme[]
+  >([]);
   const [productPrice, setProductPrice] = useState("");
 
   const getProductData = async () => {
@@ -32,6 +41,7 @@ export default function ProductItem() {
       setBrandUUID(productData.brandUUID);
       setProductImage(productData.productImage || "");
       setModelUUID(productData.modelUUID);
+      setProductImages(productData.productImages || []);
       setProductPrice(String(productData.productPrice));
     } catch (error) {
       console.error("Error fetching product data:", error);
@@ -77,7 +87,6 @@ export default function ProductItem() {
   return (
     <Screen
       title="Editar Producto"
-      scroll={false}
       footerAction={() => handleEditProduct()}
       footerText="Actualizar producto"
     >
@@ -116,6 +125,23 @@ export default function ProductItem() {
         defaultValue={productPrice}
       />
       <CameraShare currentBase64={productImage} />
+      <View
+        style={{
+          marginBottom: 100,
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 4,
+        }}
+      >
+        <Ionicons name="image" size={30} color="white" />
+        <Link href={`/gallery/${idProduct}/edit`}>
+          <Text bold color="white">
+            Editar imágenes de galeria
+          </Text>
+        </Link>
+      </View>
     </Screen>
   );
 }

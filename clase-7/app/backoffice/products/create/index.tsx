@@ -51,7 +51,6 @@ export default function CreateProductScreen() {
     };
 
     try {
-      
       const newUUID = await insertItem(newProductData);
       Alert.alert("Éxito", `Producto creado con UUID: ${newUUID}`);
       setProductName("");

@@ -10,8 +10,9 @@ import { Image } from "expo-image";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import { useStore } from "@/store/storte";
+import { typeImageProduct, useStore } from "@/store/storte";
 import { useRouter } from "expo-router";
+import uuid from "react-native-uuid";
 
 export function CameraGallery() {
   const { setGalleryBase64Data, galleryBase64Data } = useStore();
@@ -53,9 +54,13 @@ export function CameraGallery() {
   };
 
   const savePhoto = () => {
-    setGalleryBase64Data([...galleryBase64Data, photoBase64]);
+    const newImage: typeImageProduct = {
+      productIDImage: uuid.v4() as string,
+      productImage: photoBase64,
+    };
 
-    
+    setGalleryBase64Data([...galleryBase64Data, newImage]);
+
     router.back();
   };
 

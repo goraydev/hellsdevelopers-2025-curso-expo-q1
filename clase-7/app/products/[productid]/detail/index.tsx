@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Screen } from "@/components/share/Screen";
 import { Text } from "@/components/share/Text";
 import { useLocalSearchParams } from "expo-router";
-import { getEntityByUUID } from "@/app/backoffice/products/_database";
+import {
+  getEntityByUUID,
+  TypeImageProductsTableScheme,
+} from "@/app/backoffice/products/_database";
 import { FlatList, Image, StyleSheet, View } from "react-native";
+import { typeImageProduct } from "@/store/storte";
 
 export default function ProductsDetail() {
   const { productid } = useLocalSearchParams();
@@ -12,7 +16,9 @@ export default function ProductsDetail() {
   const [brandUUID, setBrandUUID] = useState("");
   const [modelUUID, setModelUUID] = useState("");
   const [productImage, setProductImage] = useState("");
-  const [productImages, setProductImages] = useState<string[]>([]);
+  const [productImages, setProductImages] = useState<
+    TypeImageProductsTableScheme[]
+  >([]);
   const [productPrice, setProductPrice] = useState("");
   const getProductData = async () => {
     try {
@@ -20,15 +26,15 @@ export default function ProductsDetail() {
       if (!productData) {
         return;
       }
-      const rawImages = productData.productImages.map(
+      /*  const rawImages = productData.productImages.map(
         (item) => item.productImage
-      );
+      ); */
 
       setProductName(productData.productName);
       setProductDescription(productData.productDescription);
       setProductImage(productData.productImage || "");
       setBrandUUID(productData.brandUUID);
-      setProductImages(rawImages);
+      setProductImages(productData.productImages || []);
       setModelUUID(productData.modelUUID);
       setProductPrice(String(productData.productPrice));
     } catch (error) {
@@ -83,7 +89,7 @@ export default function ProductsDetail() {
             }}
           >
             <Image
-              source={{ uri: `data:image/jpeg;base64,${item}` }}
+              source={{ uri: `data:image/jpeg;base64,${item.productImage}` }}
               style={{
                 width: 172,
                 height: 200,
