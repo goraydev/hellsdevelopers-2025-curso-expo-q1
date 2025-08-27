@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { Alert, FlatList, Image, StyleSheet, View } from "react-native";
 
 export default function Gallery() {
-  const { producid } = useLocalSearchParams();
+  const { producid } = useLocalSearchParams() as { producid: string };
   const [refreshing, setRefreshing] = useState(false);
   const [productImages, setProductImages] = useState<
     TypeImageProductsTableScheme[]
@@ -34,7 +34,7 @@ export default function Gallery() {
   };
 
   async function getImages() {
-    const products = await searchItemsGallery();
+    const products = await searchItemsGallery(producid);
 
     setProductImages(products);
   }
@@ -49,7 +49,6 @@ export default function Gallery() {
       {
         text: "Ok",
         onPress: async () => {
-          console.log(idimagen);
           await deleteImageEntity(idimagen);
         },
       },

@@ -163,15 +163,13 @@ export async function searchItems(
   }
 }
 export async function searchItemsGallery(
-  filters: Partial<TypeImageProductsTableScheme> = {},
-  sort: Record<string, 1 | -1> = { producdUUIDImage: 1 }
+  productUUID: string
 ): Promise<TypeImageProductsTableScheme[]> {
   try {
     const rows = await SQLiteManager.select<TypeImageProductsTableScheme>(
       tableImagesName,
       ["*"],
-      filters,
-      sort
+      { productUUID }
     );
     return rows || [];
   } catch (err) {
