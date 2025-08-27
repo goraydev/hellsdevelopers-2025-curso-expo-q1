@@ -9,7 +9,7 @@ import {
 } from "../../_database";
 import { TextInput } from "@/components/share/TextInput";
 import { styles } from "./style";
-import { Alert, Button, FlatList, Image, View } from "react-native";
+import { Alert, FlatList, Image, View } from "react-native";
 import { CameraShare } from "@/components/share/CameraShare";
 import { useStore } from "@/store/storte";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -46,6 +46,10 @@ export default function ProductItem() {
     } catch (error) {
       console.error("Error fetching product data:", error);
     }
+  };
+
+  const handleViewGallery = () => {
+    console.log(idProduct);
   };
 
   const handleEditProduct = async () => {

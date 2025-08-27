@@ -162,6 +162,23 @@ export async function searchItems(
     return [];
   }
 }
+export async function searchItemsGallery(
+  filters: Partial<TypeImageProductsTableScheme> = {},
+  sort: Record<string, 1 | -1> = { producdUUIDImage: 1 }
+): Promise<TypeImageProductsTableScheme[]> {
+  try {
+    const rows = await SQLiteManager.select<TypeImageProductsTableScheme>(
+      tableImagesName,
+      ["*"],
+      filters,
+      sort
+    );
+    return rows || [];
+  } catch (err) {
+    console.info("Error searchItems: ", err);
+    return [];
+  }
+}
 
 /**
  * Retorna la cantidad de productos existentes en la tabla.
@@ -232,6 +249,16 @@ export async function upsertEntity(row: TypeProductsTableSchema) {
 export async function deleteEntity(productUUID: string) {
   try {
     await SQLiteManager.delete(tableName, { productUUID });
+  } catch (err) {
+    console.info("Error deleteEntity: ", err);
+  }
+}
+
+export async function deleteImageEntity(imageUUID: string) {
+  try {
+    await SQLiteManager.delete(tableImagesName, {
+      producdUUIDImage: imageUUID,
+    });
   } catch (err) {
     console.info("Error deleteEntity: ", err);
   }

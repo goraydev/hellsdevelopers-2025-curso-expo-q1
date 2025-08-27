@@ -26,7 +26,7 @@ export default function Gallery() {
                 }}
               >
                 <Image
-                  source={{ uri: `data:image/jpeg;base64,${item}` }}
+                  source={{ uri: `data:image/jpeg;base64,${item.productImage}` }}
                   style={{ width: 200, height: 200, objectFit: "cover" }}
                 />
               </View>
