@@ -1,19 +1,15 @@
+import { TypeImageProductsTableScheme } from "@/app/backoffice/products/_database";
 import { User } from "@/app/users/_database";
 import { create } from "zustand";
-
-export type typeImageProduct = {
-  productIDImage: string;
-  productImage: string;
-};
 
 type Store = {
   user: User;
   base64Data: string;
-  galleryBase64Data: typeImageProduct[];
+  galleryBase64Data: TypeImageProductsTableScheme[];
   getState: () => User;
   setState: (user: User) => void;
   setBase64Data: (base64Data: string) => void;
-  setGalleryBase64Data: (payload: typeImageProduct[]) => void;
+  setGalleryBase64Data: (payload: TypeImageProductsTableScheme[]) => void;
 };
 
 export const useStore = create<Store>((set, get) => ({
@@ -28,6 +24,6 @@ export const useStore = create<Store>((set, get) => ({
   getState: () => get().user,
   setState: (user: User) => set({ user }),
   setBase64Data: (base64Data: string) => set({ base64Data }),
-  setGalleryBase64Data: (payload: typeImageProduct[]) =>
+  setGalleryBase64Data: (payload: TypeImageProductsTableScheme[]) =>
     set({ galleryBase64Data: payload }),
 }));

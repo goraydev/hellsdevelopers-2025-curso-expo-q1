@@ -1,9 +1,12 @@
 import {
   deleteImageEntity,
   getEntityByUUID,
+  insertAllImages,
   searchItemsGallery,
   TypeImageProductsTableScheme,
 } from "@/app/backoffice/products/_database";
+import { CameraGallery } from "@/components/CameraGallery";
+import IconUpImage from "@/components/share/IconUpImage";
 import { Link } from "@/components/share/Link";
 import { Screen } from "@/components/share/Screen";
 import { Text } from "@/components/share/Text";
@@ -11,11 +14,20 @@ import { useStore } from "@/store/storte";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Alert, FlatList, Image, StyleSheet, View } from "react-native";
+import {
+  Alert,
+  Button,
+  FlatList,
+  Image,
+  Pressable,
+  StyleSheet,
+  View,
+} from "react-native";
 
 export default function Gallery() {
   const { producid } = useLocalSearchParams() as { producid: string };
   const [refreshing, setRefreshing] = useState(false);
+  const { galleryBase64Data, setGalleryBase64Data } = useStore();
   const [productImages, setProductImages] = useState<
     TypeImageProductsTableScheme[]
   >([]);
@@ -50,9 +62,25 @@ export default function Gallery() {
         text: "Ok",
         onPress: async () => {
           await deleteImageEntity(idimagen);
+          const newGalleryBase64Data = galleryBase64Data.filter(
+            (item: TypeImageProductsTableScheme) =>
+              item.producdUUIDImage !== idimagen
+          );
+          setGalleryBase64Data(newGalleryBase64Data);
         },
       },
     ]);
+  };
+
+  const handleSave = async () => {
+    //insertar imagen
+    Alert.alert("Éxito", `Cambios guardados con éxito`);
+    try {
+      await insertAllImages(galleryBase64Data, producid);
+      setGalleryBase64Data([]);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -103,18 +131,41 @@ export default function Gallery() {
                 No hay imágenes
               </Text>
             )}
-            ListFooterComponent={() => (
-              <View style={{ marginTop: 10 }}>
-                <Link href="/cameragallery">
-                  <View style={styles.box}>
-                    <Text color="white">Subir imagen</Text>
-                  </View>
-                </Link>
-              </View>
-            )}
           />
         }
       </View>
+      <View>
+        <FlatList
+          data={galleryBase64Data || []}
+          numColumns={2}
+          renderItem={({ item }) => (
+            <View
+              style={{
+                position: "relative",
+                marginVertical: 8,
+              }}
+            >
+              <Ionicons
+                name="trash"
+                size={25}
+                color="red"
+                style={{ position: "absolute", top: 0, right: 0, zIndex: 2 }}
+                onPress={() => handleDeletePress(item.producdUUIDImage)}
+              />
+              <Image
+                source={{ uri: `data:image/jpeg;base64,${item.productImage}` }}
+                style={{ width: 180, height: 180, objectFit: "scale-down" }}
+              />
+            </View>
+          )}
+          ListFooterComponent={() => (
+            <Pressable style={styles.button} onPress={handleSave}>
+              <Text color="black">Guardar cambios</Text>
+            </Pressable>
+          )}
+        />
+      </View>
+      <IconUpImage />
     </Screen>
   );
 }
@@ -139,8 +190,11 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    alignSelf: "flex-end",
+    alignSelf: "center",
     alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 8,
+    
   },
   text: {
     fontSize: 24,
@@ -149,12 +203,12 @@ const styles = StyleSheet.create({
   },
   box: {
     flex: 1,
-    width: "100%",
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
     borderColor: "white",
     padding: 8,
+    marginHorizontal: 16,
   },
   gallery: {
     display: "flex",

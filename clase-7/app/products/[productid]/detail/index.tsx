@@ -7,7 +7,6 @@ import {
   TypeImageProductsTableScheme,
 } from "@/app/backoffice/products/_database";
 import { FlatList, Image, StyleSheet, View } from "react-native";
-import { typeImageProduct } from "@/store/storte";
 
 export default function ProductsDetail() {
   const { productid } = useLocalSearchParams();
@@ -76,7 +75,7 @@ export default function ProductsDetail() {
       </View>
       <FlatList
         data={productImages}
-        numColumns={2}
+        horizontal={true}
         renderItem={({ item }) => (
           <View
             style={{
@@ -91,10 +90,10 @@ export default function ProductsDetail() {
             <Image
               source={{ uri: `data:image/jpeg;base64,${item.productImage}` }}
               style={{
-                width: 172,
+                width: 200,
                 height: 200,
                 borderRadius: 10,
-                objectFit: "fill",
+                objectFit: "cover",
               }}
             />
           </View>

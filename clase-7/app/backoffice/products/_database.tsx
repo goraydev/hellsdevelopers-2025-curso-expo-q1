@@ -1,4 +1,3 @@
-import { typeImageProduct } from "@/store/storte";
 import { SQLiteManager } from "expo-sqlite-reactive";
 import uuid from "react-native-uuid";
 
@@ -24,7 +23,7 @@ export type TypeProductsAppSchema = Omit<
   TypeProductsTableSchema,
   "productUUID" | "productImages"
 > & {
-  productImages?: typeImageProduct[]; // array en la app
+  productImages?: TypeImageProductsTableScheme[]; // array en la app
 };
 
 export const tableName = "products";
@@ -135,6 +134,30 @@ export async function insertItem(productData: TypeProductsAppSchema) {
 export async function insertImageItem(imageData: TypeImageProductsTableScheme) {
   try {
     await SQLiteManager.insert(tableImagesName, imageData);
+  } catch (error) {
+    console.error("Error al insert el producto", error);
+  }
+}
+
+export async function insertAllImages(
+  images: TypeImageProductsTableScheme[],
+  productUUID: string
+) {
+  try {
+    await Promise.all(
+      images.map(async (image) => {
+        const newUUIDImage = uuid.v4() as string;
+
+        const dataImage: TypeImageProductsTableScheme = {
+          producdUUIDImage: newUUIDImage,
+          productImage: image.productImage,
+          productUUID,
+        };
+
+        await insertImageItem(dataImage);
+        return newUUIDImage;
+      })
+    );
   } catch (error) {
     console.error("Error al insert el producto", error);
   }
