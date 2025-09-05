@@ -53,7 +53,6 @@ export function Camera() {
   };
 
   const savePhoto = () => {
-    
     setBase64Data(photoBase64);
     router.back();
   };
@@ -83,7 +82,7 @@ export function Camera() {
         <Image
           source={{ uri }}
           contentFit="contain"
-          style={{ width: 300, aspectRatio: 1 }}
+          style={{ width: 500, aspectRatio: 1 }}
         />
         <View style={styles.viewButtons}>
           <Button onPress={() => setUri(null)} title="Tomar otra foto" />
