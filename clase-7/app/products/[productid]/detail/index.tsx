@@ -7,8 +7,10 @@ import {
   TypeImageProductsTableScheme,
 } from "@/app/backoffice/products/_database";
 import { FlatList, Image, StyleSheet, View } from "react-native";
+import { useStore } from "@/store/storte";
 
 export default function ProductsDetail() {
+  const { setProductSelected } = useStore();
   const { productid } = useLocalSearchParams();
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
@@ -36,6 +38,7 @@ export default function ProductsDetail() {
       setProductImages(productData.productImages || []);
       setModelUUID(productData.modelUUID);
       setProductPrice(String(productData.productPrice));
+      setProductSelected(productData);
     } catch (error) {
       console.error("Error fetching product data:", error);
     }

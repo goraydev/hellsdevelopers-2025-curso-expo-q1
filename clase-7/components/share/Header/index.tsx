@@ -5,6 +5,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { Text } from "@/components/share/Text";
 
 import { styles } from "./styles";
+import IconShareProduct from "../IconShareProduct";
 
 export function Header({ title }: { title: string }) {
   return (
@@ -20,6 +21,7 @@ export function Header({ title }: { title: string }) {
         )}
       </TouchableHighlight>
       <Text headerTitle>{title}</Text>
+      {title === "Producto" ? <IconShareProduct /> : null}
     </View>
   );
 }
