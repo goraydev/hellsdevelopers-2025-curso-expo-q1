@@ -4,18 +4,29 @@ import { Alert, Pressable, StyleSheet, TextInput } from "react-native";
 import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Operations from "../helpers/operations";
 
 export default function HomeScreen() {
-  const [firstNumber, setfirstNumber] = useState("");
-  const [secondNumber, setSecondNumber] = useState("");
+  const [firstNumber, setfirstNumber] = useState("0");
+  const [secondNumber, setSecondNumber] = useState("0");
+  const [result, setResult] = useState<number | string>(0);
 
-  const handlePlus = () => {
-    return Alert.alert(
-      "Resultado",
-      `${Number(firstNumber) + Number(secondNumber)}`,
-    );
+  const { handlePlus, handleRest, handleMultiply, handleDivide } = Operations(
+    firstNumber,
+    secondNumber,
+    result,
+    setResult,
+  );
+
+  const handleClear = () => {
+    setfirstNumber("0");
+    setSecondNumber("0");
   };
+
+  useEffect(() => {
+    Alert.alert("El resultado es", result.toString());
+  }, [result]);
 
   return (
     <ParallaxScrollView
@@ -49,11 +60,36 @@ export default function HomeScreen() {
           style={styles.input}
         />
       </ThemedView>
-      <Pressable style={styles.button} onPress={handlePlus}>
-        <ThemedText type="default" lightColor="#FFFFFF" darkColor="#000000">
-          Sumar
-        </ThemedText>
-      </Pressable>
+      <ThemedView>
+        <ThemedText type="subtitle">Operaciones</ThemedText>
+      </ThemedView>
+      <ThemedView style={styles.operationsButtons}>
+        <Pressable style={styles.button} onPress={handlePlus}>
+          <ThemedText type="default" lightColor="#FFFFFF" darkColor="#000000">
+            +
+          </ThemedText>
+        </Pressable>
+        <Pressable style={styles.button} onPress={handleRest}>
+          <ThemedText type="default" lightColor="#FFFFFF" darkColor="#000000">
+            -
+          </ThemedText>
+        </Pressable>
+        <Pressable style={styles.button} onPress={handleMultiply}>
+          <ThemedText type="default" lightColor="#FFFFFF" darkColor="#000000">
+            x
+          </ThemedText>
+        </Pressable>
+        <Pressable style={styles.button} onPress={handleDivide}>
+          <ThemedText type="default" lightColor="#FFFFFF" darkColor="#000000">
+            /
+          </ThemedText>
+        </Pressable>
+        <Pressable style={styles.buttonClear} onPress={handleClear}>
+          <ThemedText type="default" lightColor="#FFFFFF" darkColor="#000000">
+            CLEAR
+          </ThemedText>
+        </Pressable>
+      </ThemedView>
     </ParallaxScrollView>
   );
 }
@@ -88,5 +124,19 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
+    width: 50,
+    height: 50,
+  },
+  buttonClear: {
+    backgroundColor: "#2944df",
+    padding: 10,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    width: 100,
+  },
+  operationsButtons: {
+    flexDirection: "row",
+    gap: 2,
   },
 });
