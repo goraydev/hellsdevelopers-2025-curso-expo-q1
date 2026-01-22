@@ -4,29 +4,32 @@ import { Alert, Pressable, StyleSheet, TextInput } from "react-native";
 import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { useEffect, useState } from "react";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { useState } from "react";
 import Operations from "../helpers/operations";
 
 export default function HomeScreen() {
   const [firstNumber, setfirstNumber] = useState("0");
   const [secondNumber, setSecondNumber] = useState("0");
   const [result, setResult] = useState<number | string>(0);
+  const color = useThemeColor({ light: "#000000", dark: "#FFFFFF" }, "text");
 
   const { handlePlus, handleRest, handleMultiply, handleDivide } = Operations(
     firstNumber,
     secondNumber,
-    result,
-    setResult,
   );
+
+  const executeOperation = (
+    operationFn: (a: string, b: string) => number | string,
+  ) => {
+    const res = operationFn(firstNumber, secondNumber);
+    Alert.alert("El resultado es", res.toString());
+  };
 
   const handleClear = () => {
     setfirstNumber("0");
     setSecondNumber("0");
   };
-
-  useEffect(() => {
-    Alert.alert("El resultado es", result.toString());
-  }, [result]);
 
   return (
     <ParallaxScrollView
@@ -51,35 +54,47 @@ export default function HomeScreen() {
           onChangeText={setfirstNumber}
           value={firstNumber}
           keyboardType="numeric"
-          style={styles.input}
+          style={[styles.input, { backgroundColor: color }]}
         />
         <TextInput
           onChangeText={setSecondNumber}
           value={secondNumber}
           keyboardType="numeric"
-          style={styles.input}
+          style={[styles.input, { backgroundColor: color }]}
         />
       </ThemedView>
       <ThemedView>
         <ThemedText type="subtitle">Operaciones</ThemedText>
       </ThemedView>
       <ThemedView style={styles.operationsButtons}>
-        <Pressable style={styles.button} onPress={handlePlus}>
+        <Pressable
+          style={styles.button}
+          onPress={() => executeOperation(handlePlus)}
+        >
           <ThemedText type="default" lightColor="#FFFFFF" darkColor="#000000">
             +
           </ThemedText>
         </Pressable>
-        <Pressable style={styles.button} onPress={handleRest}>
+        <Pressable
+          style={styles.button}
+          onPress={() => executeOperation(handleRest)}
+        >
           <ThemedText type="default" lightColor="#FFFFFF" darkColor="#000000">
             -
           </ThemedText>
         </Pressable>
-        <Pressable style={styles.button} onPress={handleMultiply}>
+        <Pressable
+          style={styles.button}
+          onPress={() => executeOperation(handleMultiply)}
+        >
           <ThemedText type="default" lightColor="#FFFFFF" darkColor="#000000">
             x
           </ThemedText>
         </Pressable>
-        <Pressable style={styles.button} onPress={handleDivide}>
+        <Pressable
+          style={styles.button}
+          onPress={() => executeOperation(handleDivide)}
+        >
           <ThemedText type="default" lightColor="#FFFFFF" darkColor="#000000">
             /
           </ThemedText>
