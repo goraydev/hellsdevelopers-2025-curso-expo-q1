@@ -1,9 +1,7 @@
 import * as FileSystem from "expo-file-system";
-import RNFS from "react-native-fs";
 import { useStore } from "@/store/storte";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
-import { Alert, Platform } from "react-native";
 import Share from "react-native-share";
 
 export default function IconShareProduct() {
