@@ -11,10 +11,11 @@ export default function DrawerLayout() {
         drawerActiveTintColor: 'purple',
       }}>
       <Drawer.Screen
-        name="tabs"
+        name="(tabs)"
         options={{
-          drawerLabel: 'Home',
-          title: 'Home',
+          drawerLabel: 'Tabs + Stack',
+          title: 'Tabs + Stack',
+          headerShown: false,
           drawerIcon: ({ color, size }) => <FontAwesome name="home" size={24} color={color} />,
         }}
       />
@@ -23,6 +24,7 @@ export default function DrawerLayout() {
         options={{
           drawerLabel: 'User',
           title: 'User',
+          headerShown: true,
           drawerIcon: ({ color, size }) => <FontAwesome name="user" size={24} color={color} />,
         }}
       />
@@ -31,6 +33,7 @@ export default function DrawerLayout() {
         options={{
           drawerLabel: 'Schedules',
           title: 'Schedules',
+          headerShown: true,
           drawerIcon: ({ color, size }) => <FontAwesome name="calendar" size={24} color={color} />,
         }}
       />

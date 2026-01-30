@@ -5,6 +5,7 @@ export const products = [
     description:
       'Experimenta una calidad de sonido premium con estos auriculares inalámbricos. Diseñados para la comodidad y el uso prolongado, son perfectos para amantes de la música y profesionales por igual.',
     price: 99.99,
+    image: 'https://img.kwcdn.com/product/fancy/dc34c366-b49d-4451-9eb3-aca8cf210742.jpg',
   },
   {
     id: '2',
@@ -12,6 +13,7 @@ export const products = [
     description:
       'Mantente conectado y sigue tu estado físico con este elegante y moderno reloj inteligente. Equipado con funciones como monitoreo de frecuencia cardíaca, GPS y más.',
     price: 149.99,
+    image: 'https://img-1.kwcdn.com/product/fancy/eeb8d054-21b6-4368-b852-c6c949918d54.jpg',
   },
   {
     id: '3',

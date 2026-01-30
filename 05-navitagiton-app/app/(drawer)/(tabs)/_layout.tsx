@@ -5,11 +5,12 @@ import { FontAwesome } from '@expo/vector-icons';
 
 export default function TabsLayout() {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: 'purple', headerShown: false }}>
+    <Tabs screenOptions={{ tabBarActiveTintColor: 'purple' }}>
       <Tabs.Screen
         name="(stack)"
         options={{
           title: 'Stack',
+          headerShown: false,
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="user-circle" color={color} />,
         }}
       />
