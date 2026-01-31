@@ -19,7 +19,7 @@ export default function StackLayout() {
         contentStyle: {
           backgroundColor: '#fff',
         },
-        headerLeft: ({ tintColor, canGoBack=true }) => (
+        headerLeft: ({ tintColor, canGoBack = true }) => (
           <FontAwesome
             name={canGoBack ? 'arrow-left' : 'bars'}
             size={24}
